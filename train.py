@@ -30,20 +30,19 @@ model.add(Conv2D(32, kernel_size=(3, 3),
                  activation='relu',
                  input_shape=(28,28,1)))
 model.add(Conv2D(64, (3, 3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.25))
-model.add(Flatten())
-model.add(Dense(128, activation='relu'))
+model.add(MaxPooling2D(pool_size=(3, 3)))
 model.add(Dropout(0.5))
+model.add(Flatten())
+model.add(Dense(250, activation='sigmoid'))
 model.add(Dense(10, activation='softmax'))
 
 model.compile(optimizer='Adadelta',  # Good default optimizer to start with
               loss='categorical_crossentropy',  # how will we calculate our "error." Neural network aims to minimize loss.
               metrics=['accuracy'])  # what to track
 
-model.fit(x_train, y_train, epochs=10)  # train the model
+model.fit(x_train, y_train, epochs=12)  # train the model
 
 val_loss, val_acc = model.evaluate(x_test, y_test)  # evaluate the out of sample data with model
 print(val_loss)  # model's loss (error)
 print(val_acc)  # model's accuracy
-model.save('test.h5')
+model.save('testG.h5')

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Add a New Message {% endblock %}</h1>
+    <form method="post", enctype="multipart/form-data">
+        <label for="title">Digit recognizer</label>
+        <br>
+        <input type="file" name="uploaded-file" id="uploaded-file" accept="image/jpeg, image/png, application/pdf"> 
+        <br>
+
+        <label for="content">File preview</label>
+        <br>
+        <img src="{{ preview }}" alt="Uploaded image">
+        <img src="{{ preview|resize('300x300', format='jpg') }}" alt="cropped image">
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+{% endblock %}
