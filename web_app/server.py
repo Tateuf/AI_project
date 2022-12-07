@@ -29,9 +29,9 @@ def digit():
    
    return render_template('digit_check.html', preview = "static/"+img_filename, guess = guess)
 
-@app.route('/home')
+@app.route('/crop')
 def home():
-   return render_template('home.html')
+   return render_template('crop.html', preview = "static/lorem_mandel.png")
 
 if __name__ == '__main__':
    app.run()
