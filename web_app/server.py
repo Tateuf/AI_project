@@ -33,5 +33,11 @@ def digit():
 def home():
    return render_template('crop.html', preview = "static/lorem_mandel.png")
 
+@app.route('/box')
+def boxGenerator(inputfile):
+   boxed_img = "some future image"
+   # boxed_img = cv2.boundingbox(inputfile)
+   return boxed_img
+
 if __name__ == '__main__':
    app.run()

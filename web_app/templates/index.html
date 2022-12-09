@@ -1,33 +1,122 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<link rel="stylesheet" href="https://unpkg.com/jcrop/dist/jcrop.css">
-<script src="https://unpkg.com/jcrop"></script>
 
-<form action="{{ url_for('digit') }}" method="post", enctype="multipart/form-data">
-  <label for="title">Digit recognizer</label>
-  <br>
-  <input type="file" name="uploaded-file" id="uploaded-file" accept="image/jpeg, image/png, application/pdf"> 
-  <br>
-
-  <label for="content">File preview</label>
-  <br>
-  <p>{{guess}}</p>
-  <img src="{{ preview }}" id="preview" alt="Uploaded image">
-  <br>
-  <button type="submit">Submit</button>
-</form>
-
-<script>
-  const jcrop = Jcrop.attach('preview');
-  jcp.newCropper(Rect.from(jcp.el));
+<html>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.css" integrity="sha512-C4k/QrN4udgZnXStNFS5osxdhVECWyhMsK1pnlk+LkC7yJGCqoYxW4mH3/ZXLweODyzolwdWSqmmadudSHMRLA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<p>
+  <!-- Below are a series of inputs which allow file selection and interaction with the cropper api -->
+      <input type="file" id="fileInput" accept="image/jpeg, image/png, application/pdf" />
+      <input type="button" id="btnBox" value="Detect content" />
+      <input type="button" id="btnRestore" value="Restore" />
+      <input type="submit" id="btnSubmit" value="Launch OCR" />
+  </p>
+  <div>
+    <canvas id="canvas">
+      Your browser does not support the HTML5 canvas element.
+    </canvas>
+  </div>		
   
-  // const rect = Jcrop.Rect.create(x,y,w,h);
-  // const options = {};
-  // jcrop.newWidget(rect,options);
+  <h2>Cropped Region</h2>
+  <div id="result"></div>
+  
+      
+<style>
+  /* Limit image width to avoid overflow the container */
+img {
+  max-width: 100%; /* This rule is very important, please do not ignore this! */
+}
 
-  // const rect = Jcrop.Rect.fromPoints([100,100],[200,200]);
-  // jcrop.newCropper(rect,{ aspectRatio: rect.aspect });
+#canvas {
+  height: 600px;
+  width: 600px;
+  background-color: #ffffff;
+  cursor: default;
+  border: 1px solid black;
+}
+</style>  
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.3/cropper.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+<script src="https://cdnjs.com/libraries/pdf.js"></script>
+<script>  
+  var canvas  = $("#canvas"),
+    context = canvas.get(0).getContext("2d"),
+    $result = $('#result');
+
+$('#fileInput').on( 'change', function(){
+    if (this.files && this.files[0]) {
+      if ( this.files[0].type.match(/^image\//) || this.files[0].type.match(/pdf/) ) {
+        var reader = new FileReader();
+        reader.onload = function(evt) {
+           var img = new Image();
+           img.onload = function() {
+             context.canvas.height = img.height;
+             context.canvas.width  = img.width;
+             context.drawImage(img, 0, 0);
+             var cropper = canvas.cropper({
+               viewMode: 1,
+             });
+             $('#btnCrop').click(function() {
+                // Get a string base 64 data url
+                var croppedImageDataURL = canvas.cropper('getCroppedCanvas').toDataURL("image/png");
+                $result.append( $('<img>').attr('src', croppedImageDataURL) );
+             });
+             $('#btnRestore').click(function() {
+               canvas.cropper('reset');
+               $result.empty();
+             });
+             $('#btnSubmit').click(function() {
+                var croppedImageDataURL = canvas.cropper('getCroppedCanvas').toDataURL("image/png");
+                console.log("Ready to send to analyser")
+                console.log(croppedImageDataURL)
+                //convert DataURL to File
+
+                // Note: only for modern browser
+                // helper function: generate a new file from base64 String
+                const dataURLtoFile = (dataurl, filename) => {
+                  const arr = dataurl.split(',')
+                  const mime = arr[0].match(/:(.*?);/)[1]
+                  const bstr = atob(arr[1])
+                  let n = bstr.length
+                  const u8arr = new Uint8Array(n)
+                  while (n) {
+                    u8arr[n - 1] = bstr.charCodeAt(n - 1)
+                    n -= 1 // to make eslint happy
+                  }
+                  return new File([u8arr], filename, { type: mime })
+                }
+
+                // generate file from base64 string
+                const file = dataURLtoFile(croppedImageDataURL)
+                // put file into form data
+                const data = new FormData()
+                data.append('uploaded-file', file, file.name)
+
+                // now upload
+                const config = {
+                  headers: { 'Content-Type': 'multipart/form-data' }
+                }
+                axios.post('/digit', data, config).then(response => {
+                  console.log(response.data)
+                  document.write(response.data)
+                })
+                
+
+              });
+            };
+            img.src = evt.target.result;
+          };
+          reader.readAsDataURL(this.files[0]);
+        }
+      else {
+        alert("Invalid file type! Please select a valid file.");
+      }
+    }
+    else {
+      alert('No file(s) selected.');
+    }
+});
 </script>
-
 {% endblock %}

@@ -1,18 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{% block title %} Add a New Message {% endblock %}</h1>
-    <form method="post", enctype="multipart/form-data">
-        <label for="title">Digit recognizer</label>
-        <br>
-        <input type="file" name="uploaded-file" id="uploaded-file" accept="image/jpeg, image/png, application/pdf"> 
-        <br>
+    <h1>{% block title %} Recognize a single digit {% endblock %}</h1>
 
-        <label for="content">File preview</label>
-        <br>
-        <p>{{guess}}</p>
+        <h2>Your Input</h2>
         <img src="{{ preview }}" alt="Uploaded image">
         <br>
-        <button type="submit">Submit</button>
-    </form>
+        <h1>OCR Result</h1>
+        <p>{{guess}}</p>
 {% endblock %}
