@@ -3,6 +3,7 @@ from flask import render_template, request
 import os
 from werkzeug.utils import secure_filename
 import digitRecognition
+from datetime import datetime
 
 UPLOAD_FOLDER = os.path.join('static', 'uploads')
 
@@ -21,6 +22,11 @@ def digit():
         uploaded_img = request.files['uploaded-file']
         # Extracting uploaded data file name
         img_filename = secure_filename(uploaded_img.filename)
+        # Log processed files
+        process_log = open("process_log.txt", "a")
+        process_log.write(str(datetime.now()) +", processed : "+img_filename+"\n")
+        process_log.close()
+
         # Upload file to database (defined uploaded folder in static path)
         uploaded_img.save("web_app/static/"+img_filename)
         guess = digitRecognition.digit_recognition("web_app/static/"+img_filename)
@@ -32,6 +38,10 @@ def digit():
 @app.route('/crop')
 def home():
    return render_template('crop.html', preview = "static/lorem_mandel.png")
+
+@app.route('/image_crop_copy')
+def cropy():
+   return render_template('image_crop_copy.html', preview = "static/lorem_mandel.png")
 
 @app.route('/box')
 def boxGenerator(inputfile):

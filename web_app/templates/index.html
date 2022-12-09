@@ -89,7 +89,8 @@ $('#fileInput').on( 'change', function(){
                 }
 
                 // generate file from base64 string
-                const file = dataURLtoFile(croppedImageDataURL)
+                extension = $('#fileInput').val().match(/\..{3}$/)
+                const file = dataURLtoFile(croppedImageDataURL, $('#fileInput').val().replace(/^.*[\\\/]/, '').replace(/\..{3}$/,'')+"_"+Date.now()+extension[0])
                 // put file into form data
                 const data = new FormData()
                 data.append('uploaded-file', file, file.name)
@@ -110,7 +111,8 @@ $('#fileInput').on( 'change', function(){
           };
           reader.readAsDataURL(this.files[0]);
         }
-      else {
+      
+        else {
         alert("Invalid file type! Please select a valid file.");
       }
     }
