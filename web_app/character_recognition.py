@@ -5,8 +5,8 @@ from skimage.color import rgb2gray
 from keras.models import load_model
 import pandas as pd
 
-def digitRecognition(image) :
-    model = load_model('emnist_model.h5')
+def characterRecognition(image) :
+    model = load_model('web_app/emnist_model.h5')
     img_original = cv2.imread(image)
     img_gray = rgb2gray(img_original)
     img_gray_u8 = img_as_ubyte(img_gray)
@@ -21,7 +21,7 @@ def digitRecognition(image) :
     ans = model.predict(im_final)
     ans = np.argmax(ans,axis=1)[0]
     
-    label_map = pd.read_csv("kaggle/input/emnist/emnist-balanced-mapping.txt", 
+    label_map = pd.read_csv("web_app/emnist-balanced-mapping.txt", 
                             delimiter = ' ', 
                             index_col=0, 
                             header=None, 

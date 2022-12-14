@@ -10,7 +10,12 @@
       <input type="button" id="btnBox" value="Detect content" />
       <input type="button" id="btnRestore" value="Restore" />
       <input type="submit" id="btnSubmit" value="Launch OCR" />
-  </p>
+      <select id="model_select" >
+        <option value="/digit">Digit</option>
+        <option value="/tesseract">Text Typed</option>
+        <option value="/emnist">Hand Written</option>
+      </select>
+</p>
   <div>
     <canvas id="canvas">
       Your browser does not support the HTML5 canvas element.
@@ -89,7 +94,7 @@ $('#fileInput').on( 'change', function(){
                 }
 
                 // generate file from base64 string
-                extension = $('#fileInput').val().match(/\..{3}$/)
+                extension = $('#fileInput').val().match(/\..{3,}$/)
                 const file = dataURLtoFile(croppedImageDataURL, $('#fileInput').val().replace(/^.*[\\\/]/, '').replace(/\..{3}$/,'')+"_"+Date.now()+extension[0])
                 // put file into form data
                 const data = new FormData()
@@ -99,11 +104,14 @@ $('#fileInput').on( 'change', function(){
                 const config = {
                   headers: { 'Content-Type': 'multipart/form-data' }
                 }
-                axios.post('/digit', data, config).then(response => {
+                axios.post($('#model_select').val(), data, config).then(response => {
                   console.log(response.data)
                   document.write(response.data)
                 })
-                
+                // axios.post('/digit', data, config).then(response => {
+                //   console.log(response.data)
+                //   document.write(response.data)
+                // })
 
               });
             };
