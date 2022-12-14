@@ -56,7 +56,7 @@ $('#fileInput').on( 'change', function(){
              context.canvas.width  = img.width;
              context.drawImage(img, 0, 0);
              var cropper = canvas.cropper({
-               viewMode: 1,
+               viewMode: 1
              });
              $('#btnCrop').click(function() {
                 // Get a string base 64 data url
