@@ -6,22 +6,27 @@ from keras.models import load_model
 
 
 def digit_recognition(image):
+    image_name = text_detection.text_detection(img)
     model = load_model('web_app\model.h5')
-    img_original = cv2.imread(image)
-    img_gray = rgb2gray(img_original)
-    img_gray_u8 = img_as_ubyte(img_gray)
+    answer = ""
+    for image in os.listdir("wep_app/static/cropped/"+image_name):
+        img_original = cv2.imread("wep_app/static/cropped/"+image_name+"/"+image)
+        img_gray = rgb2gray(img_original)
+        img_gray_u8 = img_as_ubyte(img_gray)
 
-    #Convert grayscale image to binary
-    (thresh, im_binary) = cv2.threshold(img_gray_u8, 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+        #Convert grayscale image to binary
+        (thresh, im_binary) = cv2.threshold(img_gray_u8, 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
 
-    img_resized = cv2.resize(im_binary,(28,28), interpolation=cv2.INTER_AREA)
+        img_resized = cv2.resize(im_binary,(28,28), interpolation=cv2.INTER_AREA)
 
-    #invert image
-    im_gray_invert = 255 - img_resized
-    #cv2.imshow("invert image", im_gray_invert)
+        #invert image
+        im_gray_invert = 255 - img_resized
+        #cv2.imshow("invert image", im_gray_invert)
 
-    im_final = im_gray_invert.reshape(1,28,28,1)
+        im_final = im_gray_invert.reshape(1,28,28,1)
 
-    ans = model.predict(im_final)
-    ans = np.argmax(ans,axis=1)[0]
-    return ans 
+        ans = model.predict(im_final)
+        ans = np.argmax(ans,axis=1)[0]
+        answer += "box " + image.replace(".png","")+" = " + ans + ", "
+    return answer[:-1]
+         
