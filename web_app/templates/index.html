@@ -12,7 +12,7 @@
       <input type="submit" id="btnSubmit" value="Launch OCR" />
       <select id="model_select" >
         <option value="/digit">Digit</option>
-        <option value="/tesseract">Text Typed</option>
+        <option value="/tesseract" selected="selected">Text Typed</option>
         <option value="/emnist">Hand Written</option>
       </select>
 </p>
@@ -20,8 +20,12 @@
     <canvas id="canvas">
       Your browser does not support the HTML5 canvas element.
     </canvas>
-  </div>		
+  </div>
   
+  <div>
+    <canvas id="the-canvas"></canvas>
+  </div>
+
   <h2>Cropped Region</h2>
   <div id="result"></div>
   
@@ -39,12 +43,22 @@ img {
   cursor: default;
   border: 1px solid black;
 }
+
+#the-canvas {
+  border: 1px solid black;
+  direction: ltr;
+}
+
 </style>  
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.3/cropper.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
 <script src="https://cdnjs.com/libraries/pdf.js"></script>
+
+<script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
+
+
 <script>  
   var canvas  = $("#canvas"),
     context = canvas.get(0).getContext("2d"),
@@ -52,7 +66,7 @@ img {
 
 $('#fileInput').on( 'change', function(){
     if (this.files && this.files[0]) {
-      if ( this.files[0].type.match(/^image\//) || this.files[0].type.match(/pdf/) ) {
+      if ( this.files[0].type.match(/^image\//)) {
         var reader = new FileReader();
         reader.onload = function(evt) {
            var img = new Image();
@@ -63,8 +77,9 @@ $('#fileInput').on( 'change', function(){
              var cropper = canvas.cropper({
                viewMode: 1
              });
-             $('#btnCrop').click(function() {
+             $('#btnBox').click(function() {
                 // Get a string base 64 data url
+                
                 var croppedImageDataURL = canvas.cropper('getCroppedCanvas').toDataURL("image/png");
                 $result.append( $('<img>').attr('src', croppedImageDataURL) );
              });
@@ -119,10 +134,40 @@ $('#fileInput').on( 'change', function(){
           };
           reader.readAsDataURL(this.files[0]);
         }
-      
+        
+        else if (this.files[0].type.match(/pdf$/) ) {
+        console.log("it's a pdf")
+        var reader = new FileReader();
+        reader.onload = function(evt) {
+             $('#btnSubmit').click(function() {
+                
+                const file = document.getElementById("fileInput").files[0]
+                
+                // put file into form data
+                const data = new FormData()
+                data.append('uploaded-file', file, file.name)
+
+                // now upload
+                const config = {
+                  headers: { 'Content-Type': 'multipart/form-data' }
+                }
+                axios.post($('#model_select').val(), data, config).then(response => {
+                  console.log(response.data)
+                  document.write(response.data)
+                })
+                // axios.post('/digit', data, config).then(response => {
+                //   console.log(response.data)
+                //   document.write(response.data)
+                // })
+
+              });
+          };
+          reader.readAsDataURL(this.files[0]);
+        }
+
         else {
         alert("Invalid file type! Please select a valid file.");
-      }
+      } 
     }
     else {
       alert('No file(s) selected.');

@@ -1,0 +1,9 @@
+import fitz    
+pdffile = "input.pdf"
+doc = fitz.open(pdffile)
+i = 0
+for page in doc:
+    i += 1
+    pix = page.getPixmap()
+    output = "output_" + str(i) + ".tif"
+    pix.save(output)

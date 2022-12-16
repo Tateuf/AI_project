@@ -8,6 +8,8 @@ import text_detection
 import tesseract
 from datetime import datetime
 import json
+import fitz
+import base64
 
 UPLOAD_FOLDER = os.path.join('static', 'uploads')
 
@@ -18,6 +20,7 @@ def index():
    return render_template('index.html')
 
 def fileUpload():
+   file_names=[]
    input_filename=""
    if request.method == 'POST':
       # Upload file flask
@@ -26,7 +29,24 @@ def fileUpload():
       input_filename = secure_filename(uploaded_file.filename)
       # Upload file to database (defined uploaded folder in static path)
       uploaded_file.save("web_app/static/"+input_filename)
-      return input_filename
+      file_names.append(input_filename)
+      
+      #convert to image if filetype is pdf
+      if("pdf" in input_filename):
+         file_names.pop(0)
+         pdffile = "web_app/static/"+input_filename
+         doc = fitz.open(pdffile)
+         i = 0
+         
+         for page in doc:
+            i += 1
+            pix = page.getPixmap()
+            output = "web_app/static/"+input_filename[:-4]+"_" + str(i) + "_c.png"
+            file_names.append(input_filename[:-4]+"_1_c.png")
+            pix.save(output)
+         
+      
+      return file_names
 
 def logRegister(input_filename, guess):
    with open("web_app/logs.json",'r+') as file:
@@ -50,11 +70,14 @@ def digit():
 
 @app.route('/tesseract', methods=('GET', 'POST'))
 def textTyped():
-   input_filename = fileUpload()
+   input_filename = fileUpload()[0]
    guess = "waiting input"
    guess = tesseract.tesseract("web_app/static/"+input_filename)
    logRegister(input_filename, guess)
-   return render_template('digit_check.html', preview = "static/"+input_filename, guess = guess)
+   with open("web_app/static/sample_0.pdf", "rb") as data_file:
+        data = data_file.read()
+   encoded_file = base64.b64encode(data).decode('utf-8')
+   return render_template('digit_check.html', preview = "static/"+input_filename, guess = guess, encoded_file = encoded_file )
 
 @app.route('/emnist', methods=('GET', 'POST'))
 def handwritten():
