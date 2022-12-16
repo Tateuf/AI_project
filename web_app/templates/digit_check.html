@@ -8,4 +8,9 @@
         <br>
         <h1>OCR Result</h1>
         <p>{{guess}}</p>
+
+        <script>
+            var encoded_data = '{{ encoded_file }}';
+            var pdf_data = atob(encoded_data);
+        </script>
 {% endblock %}
