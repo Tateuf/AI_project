@@ -8,6 +8,7 @@ import text_detection
 import tesseract
 from datetime import datetime
 import json
+import fitz
 
 UPLOAD_FOLDER = os.path.join('static', 'uploads')
 
@@ -26,6 +27,19 @@ def fileUpload():
       input_filename = secure_filename(uploaded_file.filename)
       # Upload file to database (defined uploaded folder in static path)
       uploaded_file.save("web_app/static/"+input_filename)
+      
+      #convert to image if filetype is pdf
+      pdffile = "web_app/static/"+input_filename
+      doc = fitz.open(pdffile)
+      i = 0
+      for page in doc:
+         i += 1
+         pix = page.getPixmap()
+         output = "web_app/static/"+input_filename[:-4]+"_" + str(i) + "_c.png"
+         pix.save(output)
+      input_filename = "sample_0_1_c.png"
+      
+      
       return input_filename
 
 def logRegister(input_filename, guess):

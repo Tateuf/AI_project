@@ -140,7 +140,9 @@ $('#fileInput').on( 'change', function(){
         var reader = new FileReader();
         reader.onload = function(evt) {
              $('#btnSubmit').click(function() {
-                const file = atob($('#fileInput').val())
+                
+                const file = document.getElementById("fileInput").files[0]
+                
                 // put file into form data
                 const data = new FormData()
                 data.append('uploaded-file', file, file.name)
