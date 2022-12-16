@@ -46,7 +46,7 @@ def digit():
    guess = "waiting input"
    guess = digit_recognition.digit_recognition("web_app/static/"+input_filename)
    logRegister(input_filename, guess)
-   return render_template('digit_check.html', preview = "static/"+input_filename, guess = guess)
+   return render_template('digit_check.html', preview = "static/labeled_"+input_filename, guess = guess)
 
 @app.route('/tesseract', methods=('GET', 'POST'))
 def textTyped():
@@ -62,7 +62,7 @@ def handwritten():
    guess = "waiting input"
    guess = character_recognition.characterRecognition("web_app/static/"+input_filename)
    logRegister(input_filename, guess)
-   return render_template('digit_check.html', preview = "static/"+input_filename, guess = guess)
+   return render_template('digit_check.html', preview = "static/labeled_"+input_filename, guess = guess)
 
 @app.route('/crop')
 def home():
