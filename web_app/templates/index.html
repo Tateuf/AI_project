@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% block title %}Main Page{% endblock %}
+
 {% block content %}
 
 <html>
@@ -22,12 +24,12 @@
     </canvas>
   </div>
   
-  <div>
+  <!-- <div>
     <canvas id="the-canvas"></canvas>
-  </div>
+  </div> -->
 
-  <h2>Cropped Region</h2>
-  <div id="result"></div>
+  <!-- <h2>Cropped Region</h2>
+  <div id="result"></div> -->
   
       
 <style>
@@ -75,13 +77,14 @@ $('#fileInput').on( 'change', function(){
              context.canvas.width  = img.width;
              context.drawImage(img, 0, 0);
              var cropper = canvas.cropper({
-               viewMode: 1
+               viewMode: 1,
+               autoCropArea: 0.2
              });
              $('#btnBox').click(function() {
                 // Get a string base 64 data url
                 
                 var croppedImageDataURL = canvas.cropper('getCroppedCanvas').toDataURL("image/png");
-                $result.append( $('<img>').attr('src', croppedImageDataURL) );
+                // $result.append( $('<img>').attr('src', croppedImageDataURL) );
              });
              $('#btnRestore').click(function() {
                canvas.cropper('reset');

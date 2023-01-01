@@ -40,7 +40,10 @@ def fileUpload():
          
          for page in doc:
             i += 1
-            pix = page.getPixmap()
+            pix = page.get_pixmap()
+            tpix = page.get_text()
+            print(tpix)
+            print("trololol")
             output = "web_app/static/"+input_filename[:-4]+"_" + str(i) + "_c.png"
             file_names.append(input_filename[:-4]+"_1_c.png")
             pix.save(output)
@@ -62,7 +65,7 @@ def logRegister(input_filename, guess):
 
 @app.route('/digit', methods=('GET', 'POST'))
 def digit():
-   input_filename = fileUpload()
+   input_filename = fileUpload()[-1]
    guess = "waiting input"
    guess = digit_recognition.digit_recognition("web_app/static/"+input_filename)
    logRegister(input_filename, guess)
@@ -70,30 +73,23 @@ def digit():
 
 @app.route('/tesseract', methods=('GET', 'POST'))
 def textTyped():
-   input_filename = fileUpload()[0]
-   guess = "waiting input"
-   guess = tesseract.tesseract("web_app/static/"+input_filename)
-   logRegister(input_filename, guess)
-   with open("web_app/static/sample_0.pdf", "rb") as data_file:
-        data = data_file.read()
-   encoded_file = base64.b64encode(data).decode('utf-8')
-   return render_template('digit_check.html', preview = "static/"+input_filename, guess = guess, encoded_file = encoded_file )
+   guess = []
+   files = fileUpload()
+   for file in files:
+      guess.append(tesseract.tesseract("web_app/static/"+file))
+      logRegister(file, guess[-1])
+      with open("web_app/static/"+file, "rb") as data_file:
+         data = data_file.read()
+      encoded_file = base64.b64encode(data).decode('utf-8')
+   return render_template('digit_check.html', preview = "static/"+files[0], guess = guess, encoded_file = encoded_file )
 
 @app.route('/emnist', methods=('GET', 'POST'))
 def handwritten():
-   input_filename = fileUpload()
+   input_filename = fileUpload()[-1]
    guess = "waiting input"
    guess = character_recognition.characterRecognition("web_app/static/"+input_filename)
    logRegister(input_filename, guess)
    return render_template('digit_check.html', preview = "static/labeled_"+input_filename, guess = guess)
-
-@app.route('/crop')
-def home():
-   return render_template('crop.html', preview = "static/lorem_mandel.png")
-
-@app.route('/image_crop_copy')
-def cropy():
-   return render_template('image_crop_copy.html', preview = "static/lorem_mandel.png")
 
 @app.route('/box')
 def boxGenerator(inputfile):
