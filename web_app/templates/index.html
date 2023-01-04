@@ -9,7 +9,7 @@
 <p>
   <!-- Below are a series of inputs which allow file selection and interaction with the cropper api -->
       <input type="file" id="fileInput" accept="image/jpeg, image/png, application/pdf" />
-      <input type="button" id="btnBox" value="Detect content" />
+      <!-- <input type="button" id="btnBox" value="Detect content" /> -->
       <input type="button" id="btnRestore" value="Restore" />
       <input type="submit" id="btnSubmit" value="Launch OCR" />
       <select id="model_select" >
@@ -69,6 +69,7 @@ img {
 $('#fileInput').on( 'change', function(){
     if (this.files && this.files[0]) {
       if ( this.files[0].type.match(/^image\//)) {
+        canvas.cropper('destroy');
         var reader = new FileReader();
         reader.onload = function(evt) {
            var img = new Image();
@@ -80,12 +81,13 @@ $('#fileInput').on( 'change', function(){
                viewMode: 1,
                autoCropArea: 0.2
              });
-             $('#btnBox').click(function() {
-                // Get a string base 64 data url
+            //  $('#btnBox').click(function() {
+            //     // Get a string base 64 data url
+            //     canvas.cropper('destroy');
                 
-                var croppedImageDataURL = canvas.cropper('getCroppedCanvas').toDataURL("image/png");
-                // $result.append( $('<img>').attr('src', croppedImageDataURL) );
-             });
+            //     var croppedImageDataURL = canvas.cropper('getCroppedCanvas').toDataURL("image/png");
+            //     // $result.append( $('<img>').attr('src', croppedImageDataURL) );
+            //  });
              $('#btnRestore').click(function() {
                canvas.cropper('reset');
                $result.empty();
