@@ -116,6 +116,8 @@ $('#fileInput').on( 'change', function(){
                 // generate file from base64 string
                 extension = $('#fileInput').val().match(/\..{3,}$/)
                 const file = dataURLtoFile(croppedImageDataURL, $('#fileInput').val().replace(/^.*[\\\/]/, '').replace(/\..{3}$/,'')+"_"+Date.now()+extension[0])
+                console.log("multifile ?")
+                console.log(this.files)
                 // put file into form data
                 const data = new FormData()
                 data.append('uploaded-file', file, file.name)
