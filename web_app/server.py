@@ -86,6 +86,7 @@ def textTyped():
       output = "web_app/static/"+input_filename[:-4]+"_" + str(i) + "_c.png"
       file_names.append(input_filename[:-4]+"_1_c.png")
       guess.append(extracted_text)
+      logRegister(page.parent.name +" p."+ str(page.number), guess[-1])
 
    # for file in files:
    #    guess.append(tesseract.tesseract("web_app/static/"+file))
