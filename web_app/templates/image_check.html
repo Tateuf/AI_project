@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Recognize from an image {% endblock %}</h1>
+    <h1>OCR Result</h1>
+    <p>{{guess}}</p>
+    
+    
+    <h2>Your Input</h2>
+    <img src="{{ preview }}" alt="Uploaded image">
+{% endblock %}

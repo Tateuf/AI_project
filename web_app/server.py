@@ -63,14 +63,12 @@ def logRegister(input_filename, guess):
 
 @app.route('/digit', methods=('GET', 'POST'))
 def digit():
-   file_names=[]
    input_filename = fileUpload()[-1]
-   file_names.append("labeled_"+input_filename)
    guess = "waiting input"
    guess = digit_recognition.digit_recognition("web_app/static/"+input_filename)
    logRegister(input_filename, guess)
    # return render_template('digit_check.html', preview = "static/labeled_"+input_filename, guess = guess)
-   return render_template('digit_check.html', preview = file_names, guess = guess)
+   return render_template('image_check.html', preview = "static/labeled_"+input_filename, guess = guess)
 
 @app.route('/tesseract', methods=('GET', 'POST'))
 def textTyped():
@@ -102,20 +100,18 @@ def textTyped():
          with open("web_app/static/"+file, "rb") as data_file:
             data = data_file.read()
          encoded_file = base64.b64encode(data).decode('utf-8')
-      return render_template('digit_check.html', preview = "static/"+files[0], guess = guess, encoded_file = encoded_file )
+      return render_template('image_check.html', preview = "static/"+files[0], guess = guess, encoded_file = encoded_file )
 
-   # return render_template('digit_check.html', preview = "static/"+files[0], guess = guess)
-   return render_template('digit_check.html', preview = file_names, guess = guess)
+   return render_template('pdf_check.html', preview = "static/"+input_filename, guess = guess)
+   # return render_template('pdf_check.html', preview = file_names[], guess = guess)
 
 @app.route('/emnist', methods=('GET', 'POST'))
 def handwritten():
-   file_names=[]
    input_filename = fileUpload()[-1]
-   file_names.append("labeled_"+input_filename)
    guess = "waiting input"
    guess = character_recognition.characterRecognition("web_app/static/"+input_filename)
    logRegister(input_filename, guess)
-   return render_template('digit_check.html', preview = file_names, guess = guess)
+   return render_template('image_check.html', preview = "static/labeled_"+input_filename, guess = guess)
 
 @app.route('/box')
 def boxGenerator(inputfile):

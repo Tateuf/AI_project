@@ -26,13 +26,6 @@
 
   <iframe id="pdf-viewer" width="800" height="1200"></iframe>
   
-  <!-- <div>
-    <canvas id="the-canvas"></canvas>
-  </div> -->
-
-  <!-- <h2>Cropped Region</h2>
-  <div id="result"></div> -->
-  
       
 <style>
   /* Limit image width to avoid overflow the container */
@@ -180,9 +173,6 @@ $('#fileInput').on( 'change', function(){
 </script>
 
 <script>
-  // If absolute URL from the remote server is provided, configure the CORS
-// header on that server.
-// var url = 'https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf';
 $('#fileInput').on( 'change', function(){
     if (this.files && this.files[0]) {
     const obj_url = URL.createObjectURL(this.files[0]);
@@ -191,9 +181,6 @@ $('#fileInput').on( 'change', function(){
     URL.revokeObjectURL(obj_url);
     }
   });
-
-
-
 </script>
 
 {% endblock %}
