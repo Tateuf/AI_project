@@ -89,7 +89,7 @@ def textTyped():
       for page in doc:
          i += 1
          extracted_text = page.get_text()
-         file_names.append(input_filename[:-4]+"_1_c.png")
+         file_names.append(input_filename[:-4]+"_{}_c.png".format(i))
          guess.append(extracted_text)
          #add log entry
          logRegister(page.parent.name +" p."+ str(page.number), guess[-1])
@@ -109,11 +109,13 @@ def textTyped():
 
 @app.route('/emnist', methods=('GET', 'POST'))
 def handwritten():
+   file_names=[]
    input_filename = fileUpload()[-1]
+   file_names.append("labeled_"+input_filename)
    guess = "waiting input"
    guess = character_recognition.characterRecognition("web_app/static/"+input_filename)
    logRegister(input_filename, guess)
-   return render_template('digit_check.html', preview = "static/labeled_"+input_filename, guess = guess)
+   return render_template('digit_check.html', preview = file_names, guess = guess)
 
 @app.route('/box')
 def boxGenerator(inputfile):
