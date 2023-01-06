@@ -76,24 +76,28 @@ def textTyped():
 
    files = fileUpload()
 
-   pdffile = "web_app/static/"+input_filename
-   doc = fitz.open(pdffile)
-   i = 0
+   try:
+      pdffile = "web_app/static/"+input_filename
+      doc = fitz.open(pdffile)
+      i = 0
+      
+      for page in doc:
+         i += 1
+         extracted_text = page.get_text()
+         output = "web_app/static/"+input_filename[:-4]+"_" + str(i) + "_c.png"
+         file_names.append(input_filename[:-4]+"_1_c.png")
+         guess.append(extracted_text)
+         logRegister(page.parent.name +" p."+ str(page.number), guess[-1])
    
-   for page in doc:
-      i += 1
-      extracted_text = page.get_text()
-      output = "web_app/static/"+input_filename[:-4]+"_" + str(i) + "_c.png"
-      file_names.append(input_filename[:-4]+"_1_c.png")
-      guess.append(extracted_text)
-      logRegister(page.parent.name +" p."+ str(page.number), guess[-1])
+   except:
 
-   # for file in files:
-   #    guess.append(tesseract.tesseract("web_app/static/"+file))
-   #    logRegister(file, guess[-1])
-   #    with open("web_app/static/"+file, "rb") as data_file:
-   #       data = data_file.read()
-   #    encoded_file = base64.b64encode(data).decode('utf-8')
+      for file in files:
+         guess.append(tesseract.tesseract("web_app/static/"+file))
+         logRegister(file, guess[-1])
+         with open("web_app/static/"+file, "rb") as data_file:
+            data = data_file.read()
+         encoded_file = base64.b64encode(data).decode('utf-8')
+      return render_template('digit_check.html', preview = "static/"+files[0], guess = guess, encoded_file = encoded_file )
 
    # return render_template('digit_check.html', preview = "static/"+files[0], guess = guess, encoded_file = encoded_file )
    return render_template('digit_check.html', preview = "static/"+files[0], guess = guess)
