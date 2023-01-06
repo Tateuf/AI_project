@@ -79,11 +79,12 @@ def textTyped():
 
    files = fileUpload()
 
-   try:
-      pdffile = "web_app/static/"+input_filename
-      doc = fitz.open(pdffile)
-      i = 0
       
+   pdffile = "web_app/static/"+input_filename
+   doc = fitz.open(pdffile)
+   if doc.is_pdf:
+      print("it's a real pdf")
+      i = 0
       for page in doc:
          i += 1
          extracted_text = page.get_text()
@@ -91,18 +92,19 @@ def textTyped():
          guess.append(extracted_text)
          #add log entry
          logRegister(page.parent.name +" p."+ str(page.number), guess[-1])
-   
-   except:
-
+         return render_template('pdf_check.html', preview = "static/"+input_filename, guess = guess)
+   else:
+      print("it's actually an image")
       for file in files:
          guess.append(tesseract.tesseract("web_app/static/"+file))
          logRegister(file, guess[-1])
-         with open("web_app/static/"+file, "rb") as data_file:
-            data = data_file.read()
-         encoded_file = base64.b64encode(data).decode('utf-8')
-      return render_template('image_check.html', preview = "static/"+files[0], guess = guess, encoded_file = encoded_file )
+         # with open("web_app/static/"+file, "rb") as data_file:
+         #    data = data_file.read()
+         # encoded_file = base64.b64encode(data).decode('utf-8')
+      # return render_template('image_check.html', preview = "static/"+files[0], guess = guess, encoded_file = encoded_file )
+      return render_template('pdf_check.html', preview = "static/"+files[0], guess = guess)
 
-   return render_template('pdf_check.html', preview = "static/"+input_filename, guess = guess)
+   # return render_template('pdf_check.html', preview = "static/"+input_filename, guess = guess)
    # return render_template('pdf_check.html', preview = file_names[], guess = guess)
 
 @app.route('/emnist', methods=('GET', 'POST'))
