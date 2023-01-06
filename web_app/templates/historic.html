@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Title{% endblock %}
+
+{% block content %}
+
+<html>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.css" integrity="sha512-C4k/QrN4udgZnXStNFS5osxdhVECWyhMsK1pnlk+LkC7yJGCqoYxW4mH3/ZXLweODyzolwdWSqmmadudSHMRLA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    
+    .item {
+      width: 30%;
+      margin: 10px;
+      text-align: center;
+      border: 1px solid black;
+    }
+    
+    
+    .item img {
+      width: 100%;
+      height: auto;
+    }
+    </style>
+    <body onload="checkImageName()">
+        <div class="container">
+            {% for i in range(data|length) %}
+            <div class="item">
+                <p>Date: {{ data[i].date }}</p>
+                <p>Nom du fichier : {{data[i].name}}</p>
+                <img src="{{ data[i].file }}">
+                <p>Contient: {{ data[i].content }}</p>
+            </div>
+            {% endfor %}
+    </body>
+</html>   
+
+<script>
+</script>
+{% endblock %}
