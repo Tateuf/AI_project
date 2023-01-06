@@ -84,7 +84,7 @@ def textTyped():
       for page in doc:
          i += 1
          extracted_text = page.get_text()
-         output = "web_app/static/"+input_filename[:-4]+"_" + str(i) + "_c.png"
+         # output = "web_app/static/"+input_filename[:-4]+"_" + str(i) + "_c.png"
          file_names.append(input_filename[:-4]+"_1_c.png")
          guess.append(extracted_text)
          logRegister(page.parent.name +" p."+ str(page.number), guess[-1])
@@ -99,7 +99,6 @@ def textTyped():
          encoded_file = base64.b64encode(data).decode('utf-8')
       return render_template('digit_check.html', preview = "static/"+files[0], guess = guess, encoded_file = encoded_file )
 
-   # return render_template('digit_check.html', preview = "static/"+files[0], guess = guess, encoded_file = encoded_file )
    return render_template('digit_check.html', preview = "static/"+files[0], guess = guess)
 
 @app.route('/emnist', methods=('GET', 'POST'))

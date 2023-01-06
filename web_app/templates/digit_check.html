@@ -9,6 +9,13 @@
         <h1>OCR Result</h1>
         <p>{{guess}}</p>
 
+        {% for page in guess %}
+        {% for line in page.split('\n') %}
+        {{ line }}
+        <br />
+        {% endfor %}
+        {% endfor %}
+
         <script>
             var encoded_data = '{{ encoded_file }}';
             var pdf_data = atob(encoded_data);
