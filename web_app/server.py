@@ -40,8 +40,10 @@ def fileUpload():
          
          for page in doc:
             i += 1
-            extracted_text = page.get_text()
+            #create image from pdf page
+            pix = page.get_pixmap()
             output = "web_app/static/"+input_filename[:-4]+"_" + str(i) + "_c.png"
+            pix.save(output)
             file_names.append(input_filename[:-4]+"_1_c.png")
          
       
@@ -61,11 +63,14 @@ def logRegister(input_filename, guess):
 
 @app.route('/digit', methods=('GET', 'POST'))
 def digit():
+   file_names=[]
    input_filename = fileUpload()[-1]
+   file_names.append("labeled_"+input_filename)
    guess = "waiting input"
    guess = digit_recognition.digit_recognition("web_app/static/"+input_filename)
    logRegister(input_filename, guess)
-   return render_template('digit_check.html', preview = "static/labeled_"+input_filename, guess = guess)
+   # return render_template('digit_check.html', preview = "static/labeled_"+input_filename, guess = guess)
+   return render_template('digit_check.html', preview = file_names, guess = guess)
 
 @app.route('/tesseract', methods=('GET', 'POST'))
 def textTyped():
@@ -84,9 +89,9 @@ def textTyped():
       for page in doc:
          i += 1
          extracted_text = page.get_text()
-         # output = "web_app/static/"+input_filename[:-4]+"_" + str(i) + "_c.png"
          file_names.append(input_filename[:-4]+"_1_c.png")
          guess.append(extracted_text)
+         #add log entry
          logRegister(page.parent.name +" p."+ str(page.number), guess[-1])
    
    except:
@@ -99,7 +104,8 @@ def textTyped():
          encoded_file = base64.b64encode(data).decode('utf-8')
       return render_template('digit_check.html', preview = "static/"+files[0], guess = guess, encoded_file = encoded_file )
 
-   return render_template('digit_check.html', preview = "static/"+files[0], guess = guess)
+   # return render_template('digit_check.html', preview = "static/"+files[0], guess = guess)
+   return render_template('digit_check.html', preview = file_names, guess = guess)
 
 @app.route('/emnist', methods=('GET', 'POST'))
 def handwritten():
