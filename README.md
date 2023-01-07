@@ -81,10 +81,20 @@ L'earlystopping va être utilisé pour éviter l'overfitting, il arrête l'appre
 On a ensuite entrainer le modèle et on l'a tester. Il est moins perfomant que mnist, tout d'abord le modèle comporte beaucoup moins de couche et pas de générateur d'images. De plus le sujet de emnist est beaucoup moins en vogue sur internet et nous n'avons pas su trouver de modèle plus efficace. 
 
 ### Bounding Box :
+Pour la détection automatique de texte sur la page nous avons réutilisé un des principes de traitement d'image que nous avions vu en cours lors de l'année précédente. Il s'agit non pas de détection de texte mais plus de détection de "zone de couleur plus foncée", ce qui limite notre cas d'utilisation à de l'écriture blanc sur noir ou du moins foncé sur clair. 
 
+Il va falloir traité l'image afin de détecter les zones de textes:
+- On va tout d'abord lire l'image avec OpenCV
+- On va ensuite la transformer en nuance de gris
+- On ajoute un flou gaussien pour que les différentes zonnes soit moins distinctes et que l'on puisse trouver des mots/phrase/paragraphes entiers. 
+-  Vient l'étape du treshold qui va nous permettre de "binariser" chacun des pixels de l'image, ceux-ci deviendront blanc ou noir selon l'intensité du gris
+-  on va ensuite dilaté les différentes taches pour évité d'encadrer lettre par lettre. 
+-  On va ensuite pouvoir dessiner des rectangles autour des différentes taches.
 
+Maintenant que l'on connait les coordonnées de ses rectangles, nous pouvons faire des recherches directement dans l'image initiale avec nos moteurs de recherches. 
 
-- Bounding box (LOGAN)
+Nous avons décidé de dessiner les rectangles ainsi que de leur donnée un numéro pour que ce soit plus simple à comprendre lors de l'affichage des données. 
+
 - Page de sortie (LOUIS)
 - Historique (LOGAN)
 
@@ -102,4 +112,5 @@ On a ensuite entrainer le modèle et on l'a tester. Il est moins perfomant que m
 - https://www.superdatascience.com/blogs/convolutional-neural-networks-cnn-softmax-crossentropy
 - https://keras.io/api/metrics/accuracy_metrics/#accuracy-class
 - https://pytorch.org/docs/stable/generated/torch.optim.lr_scheduler.ReduceLROnPlateau.html
-
+- https://stackoverflow.com/questions/57249273/how-to-detect-paragraphs-in-a-text-document-image-for-a-non-consistent-text-stru
+- https://docs.opencv.org/4.x/d7/d4d/tutorial_py_thresholding.html
