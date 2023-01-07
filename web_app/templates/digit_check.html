@@ -3,12 +3,27 @@
 {% block content %}
     <h1>{% block title %} Recognize a single digit {% endblock %}</h1>
 
-        <h2>Your Input</h2>
-        <img src="{{ preview }}" alt="Uploaded image">
-        <br>
-        <h1>OCR Result</h1>
-        <p>{{guess}}</p>
+    <h1>OCR Result</h1>
+    <!-- <p>{{guess}}</p> -->
 
+    {% for page in guess %}
+    {% for line in page.split('\n') %}
+    {{ line }}
+    <br />
+    {% endfor %}
+    {% endfor %}
+    
+    
+    <h2>Your Input</h2>
+    {% for file in preview %}
+    <!-- <img src="{{ preview }}" alt="Uploaded image"> -->
+    <h3>{{file}}</h3>
+    <img src="{{ url_for('static', filename=file) }}" alt="Uploaded image">
+    
+    {% endfor %}
+    
+    
+    <br>
         <script>
             var encoded_data = '{{ encoded_file }}';
             var pdf_data = atob(encoded_data);

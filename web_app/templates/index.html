@@ -23,13 +23,8 @@
       Your browser does not support the HTML5 canvas element.
     </canvas>
   </div>
-  
-  <!-- <div>
-    <canvas id="the-canvas"></canvas>
-  </div> -->
 
-  <!-- <h2>Cropped Region</h2>
-  <div id="result"></div> -->
+  <iframe id="pdf-viewer" width="800" height="1200"></iframe>
   
       
 <style>
@@ -46,18 +41,13 @@ img {
   border: 1px solid black;
 }
 
-#the-canvas {
-  border: 1px solid black;
-  direction: ltr;
-}
-
 </style>  
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.3/cropper.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
-<script src="https://cdnjs.com/libraries/pdf.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.2.228/pdf.min.js"></script>
+<!-- <script src="https://cdnjs.com/libraries/pdf.js"></script> -->
 <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
 
 
@@ -181,4 +171,16 @@ $('#fileInput').on( 'change', function(){
     }
 });
 </script>
+
+<script>
+$('#fileInput').on( 'change', function(){
+    if (this.files && this.files[0]) {
+    const obj_url = URL.createObjectURL(this.files[0]);
+    const iframe = document.getElementById('pdf-viewer');
+    iframe.setAttribute('src', obj_url);
+    URL.revokeObjectURL(obj_url);
+    }
+  });
+</script>
+
 {% endblock %}

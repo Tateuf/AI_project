@@ -1,18 +1,4 @@
 {
     "history": [
-        {
-            "date": "2023-01-06",
-            "time": "09:42:40.397910",
-            "name": "labeled_test_1672994559247.jpg",
-            "file": "/static/labeled_test_1672994559247.jpg",
-            "content": "BOX 0 => 2"
-        },
-        {
-            "date": "2023-01-06",
-            "time": "09:43:18.382062",
-            "name": "20221108101611658.pdf p.0",
-            "file": "web_app/static/20221108101611658.pdf p.0",
-            "content": ""
-        }
     ]
 }
