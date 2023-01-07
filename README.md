@@ -12,6 +12,7 @@ https://www.kaggle.com/code/abdelwahed43/handwritten-digits-recognizer-0-999-sim
 La première étape a été de préparée les données du dataset a être traitée :
 - Séparation des labels et des données associées
 - Normalisation des données 
+- Reshapping des données 
 - Transformation des labels en classe binaires ( 1 devient par exemple 0001 ), on les sépare en dix classe différentes. Une pour chacun des chiffre 
 - On transforme 10% des données d'entrainement en données de validation. Ces données de validation vont être utile durant l'entrainement afin de surveiller que le modèle ne s'habitue pas trop aux données d'entrainement.
 
@@ -45,31 +46,71 @@ On va également utiler la fonction ReduceLROnPlateau qui va nous permettre de r
 
 Pour éviter l'overfitting on a décidé de ne faire que 3 epoch, en ayant fait des tests au delà le modèle devient bien moins compétant pour les figures qu'il n'a pas eu dans son dataset. Il est trop spécialisé. 
 
-On va également utilisé le image data generator qui va nous permettre de nous entrainé avec des versions modifiés des images initiales. Il va les faire pivoter, zoomer mais également les shifter légèrement. 
+On utilise le imageDataGenerator qui va nous permettre de nous entrainé avec des versions modifiés des images initiales. Il va les faire pivoter, zoomer mais également les shifter légèrement. 
 
 Après avoir enregistrer ces paramètres on va pouvoir entrainer et essayer le modèle.
 
 Lorsque l'on utilise les modèles il est important de faire en sorte de traiter les images d'input pour qu'elle correspondent à ce qui a été appris durnat l'entrainement. Il sera donc utile de les redimensionner et de modifier leur couleur. 
 
 ### CNN emmnist :
+Pour le moteur de reconnaissance de lettre manuscrite, un CNN alimenté par le dataset de emnist semblait être la meilleure solution. Nous n'avons bien évidemment pas créer de toute pièce l'architecture du CNN mais nous nous sommes inspirés d'une autre solution trouvée sur Kaggle : 
+https://www.kaggle.com/code/achintyatripathi/emnist-letter-dataset-97-9-acc-val-acc-91-78
+Malheureusement il est beaucoup moins performant que celui utilisé précédement pour mnist.
 
+La première étape la préparation des données : 
+- On va séparer les labels et les données 
+- On va ensuite normaliser les données et les reshape
+- Catégoriser les labels en classes binaires
+- Splitter les données d'entrainement en donnée d'entrainement et de validation
 
-- Bounding box (LOGAN)
+On va ensuite définir les différentes couches de notre modèle :
+
+- Conv2D, filtré 32 fois avec un kernel de 3x3
+- MaxPooling2D, avec un pool de 2x2
+- Flatten
+- Dense(521)
+- Dense(128)
+- Dense(27)
+
+Nous utilisons un optimiser RMSprop, avec une fonction de loss categorical_crossentropy et les mêmes metrics que pour mnist. 
+
+On a mis en place de l'earlystoping et ReduceLROnPlateau, on a fait 5 epoch.
+
+L'earlystopping va être utilisé pour éviter l'overfitting, il arrête l'apprentissage quand il s'apperçoit que le nombre d'erreur sur les datas de validation augmententent alors qu'ils descendent sur les datas de test. Lorsque c'est le cas le modèle commence à overfitter. 
+
+On a ensuite entrainer le modèle et on l'a tester. Il est moins perfomant que mnist, tout d'abord le modèle comporte beaucoup moins de couche et pas de générateur d'images. De plus le sujet de emnist est beaucoup moins en vogue sur internet et nous n'avons pas su trouver de modèle plus efficace. 
+
+### Bounding Box :
+Pour la détection automatique de texte sur la page nous avons réutilisé un des principes de traitement d'image que nous avions vu en cours lors de l'année précédente. Il s'agit non pas de détection de texte mais plus de détection de "zone de couleur plus foncée", ce qui limite notre cas d'utilisation à de l'écriture blanc sur noir ou du moins foncé sur clair. 
+
+Il va falloir traité l'image afin de détecter les zones de textes:
+- On va tout d'abord lire l'image avec OpenCV
+- On va ensuite la transformer en nuance de gris
+- On ajoute un flou gaussien pour que les différentes zonnes soit moins distinctes et que l'on puisse trouver des mots/phrase/paragraphes entiers. 
+-  Vient l'étape du treshold qui va nous permettre de "binariser" chacun des pixels de l'image, ceux-ci deviendront blanc ou noir selon l'intensité du gris
+-  on va ensuite dilaté les différentes taches pour évité d'encadrer lettre par lettre. 
+-  On va ensuite pouvoir dessiner des rectangles autour des différentes taches.
+
+Maintenant que l'on connait les coordonnées de ses rectangles, nous pouvons faire des recherches directement dans l'image initiale avec nos moteurs de recherches. 
+
+Nous avons décidé de dessiner les rectangles ainsi que de leur donnée un numéro pour que ce soit plus simple à comprendre lors de l'affichage des données. 
+
 - Page de sortie (LOUIS)
 - Historique (LOGAN)
 
 
 ## Sources :
-https://www.kaggle.com/code/abdelwahed43/handwritten-digits-recognizer-0-999-simple-model
-https://inside-machinelearning.com/le-dropout-cest-quoi-deep-learning-explication-rapide/
-https://fr.wikipedia.org/wiki/Max_pooling
-https://inside-machinelearning.com/cnn-couche-de-convolution/
-https://lesdieuxducode.com/blog/2019/1/prototyper-un-reseau-de-neurones-avec-keras
-https://stackoverflow.com/questions/43237124/what-is-the-role-of-flatten-in-keras
-https://blog.engineering.publicissapient.fr/2017/04/11/tensorflow-deep-learning-episode-3-modifiez-votre-reseau-de-neurones-en-toute-simplicite/
-https://penseeartificielle.fr/tp-reseau-de-neurones-convolutifs/
-https://medium.com/analytics-vidhya/a-complete-guide-to-adam-and-rmsprop-optimizer-75f4502d83be
-https://www.superdatascience.com/blogs/convolutional-neural-networks-cnn-softmax-crossentropy
-https://keras.io/api/metrics/accuracy_metrics/#accuracy-class
-https://pytorch.org/docs/stable/generated/torch.optim.lr_scheduler.ReduceLROnPlateau.html
-
+- https://www.kaggle.com/code/abdelwahed43/handwritten-digits-recognizer-0-999-simple-model
+- https://inside-machinelearning.com/le-dropout-cest-quoi-deep-learning-explication-rapide/
+- https://fr.wikipedia.org/wiki/Max_pooling
+- https://inside-machinelearning.com/cnn-couche-de-convolution/
+- https://lesdieuxducode.com/blog/2019/1/prototyper-un-reseau-de-neurones-avec-keras
+- https://stackoverflow.com/questions/43237124/what-is-the-role-of-flatten-in-keras
+- https://blog.engineering.publicissapient.fr/2017/04/11/tensorflow-deep-learning-episode-3-modifiez-votre-reseau-de-neurones-en-toute-simplicite/
+- https://penseeartificielle.fr/tp-reseau-de-neurones-convolutifs/
+- https://medium.com/analytics-vidhya/a-complete-guide-to-adam-and-rmsprop-optimizer-75f4502d83be
+- https://www.superdatascience.com/blogs/convolutional-neural-networks-cnn-softmax-crossentropy
+- https://keras.io/api/metrics/accuracy_metrics/#accuracy-class
+- https://pytorch.org/docs/stable/generated/torch.optim.lr_scheduler.ReduceLROnPlateau.html
+- https://stackoverflow.com/questions/57249273/how-to-detect-paragraphs-in-a-text-document-image-for-a-non-consistent-text-stru
+- https://docs.opencv.org/4.x/d7/d4d/tutorial_py_thresholding.html
