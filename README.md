@@ -52,7 +52,7 @@ Après avoir enregistrer ces paramètres on va pouvoir entrainer et essayer le m
 
 Lorsque l'on utilise les modèles il est important de faire en sorte de traiter les images d'input pour qu'elle correspondent à ce qui a été appris durnat l'entrainement. Il sera donc utile de les redimensionner et de modifier leur couleur. 
 
-### CNN emmnist :
+### CNN emnist :
 Pour le moteur de reconnaissance de lettre manuscrite, un CNN alimenté par le dataset de emnist semblait être la meilleure solution. Nous n'avons bien évidemment pas créer de toute pièce l'architecture du CNN mais nous nous sommes inspirés d'une autre solution trouvée sur Kaggle : 
 https://www.kaggle.com/code/achintyatripathi/emnist-letter-dataset-97-9-acc-val-acc-91-78
 Malheureusement il est beaucoup moins performant que celui utilisé précédement pour mnist.
