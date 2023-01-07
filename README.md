@@ -16,20 +16,20 @@ La première étape a été de préparée les données du dataset a être trait�
 - On transforme 10% des données d'entrainement en données de test
 
 On va ensuite définir les différentes couches de notre modéle, on expliquera par la suite ce que fait chacune des couches : 
-- Conv2D
-- Conv2D
-- MaxPool2D
+- Conv2D, filtré 32 fois avec un kernel de 5x5
+- Conv2D, filtré 32 fois avec un kernel de 5x5
+- MaxPool2D, avec un pool de taille 2x2
 - DropOut(0.25)
-
-- Conv2D
-- Conv2D
-- MaxPool2D
+<br />
+- Conv2D, filtré 64 fois avec un kernel de 3x3
+- Conv2D, filtré 64 fois avec un kernel de 3x3
+- MaxPool2D, avec un pool de taille 2x2
 - DropOut(0.25)
-
+<br />
 - Flatten
 - Dense(256,"relu")
 - Dropout(0.5)
-- Dense(10)
+- Dense(10, "softmax")
 
 Conv2D : Cette couche va nous permettre de créer un kernel qui va etre convolué avec l'input pour donner l'output. Cette couche va nous permettre de nous focaliser sur les détails de l'image. 
 
