@@ -19,6 +19,12 @@ app = Flask(__name__)
 def index():
    return render_template('index.html')
 
+@app.route('/historic')
+def historic():
+   with open('web_app/logs.json', 'r') as f:
+      data = json.load(f)
+   return render_template('historic.html', data=data["history"])
+
 def fileUpload():
    file_names=[]
    input_filename=""
@@ -54,7 +60,8 @@ def logRegister(input_filename, guess):
       # First we load existing data into a dict.
       file_data = json.load(file)
       # Join new_data with file_data inside emp_details
-      record = {"date":str(datetime.now().date()),"time":str(datetime.now().time()),"file": input_filename,"content":str(guess)}
+      name = input_filename.split("/")[-1]
+      record = {"date":str(datetime.now().date()),"time":str(datetime.now().time()),"name": name,"file": input_filename,"content":str(guess)}
       file_data["history"].append(record)
       # Sets file's current position at offset.
       file.seek(0)
@@ -66,9 +73,11 @@ def digit():
    input_filename = fileUpload()[-1]
    guess = "waiting input"
    guess = digit_recognition.digit_recognition("web_app/static/"+input_filename)
-   logRegister(input_filename, guess)
+
+   logRegister("/static/labeled_"+input_filename, guess)
    # return render_template('digit_check.html', preview = "static/labeled_"+input_filename, guess = guess)
    return render_template('image_check.html', preview = "static/labeled_"+input_filename, guess = guess)
+
 
 @app.route('/tesseract', methods=('GET', 'POST'))
 def textTyped():
@@ -112,8 +121,9 @@ def handwritten():
    input_filename = fileUpload()[-1]
    guess = "waiting input"
    guess = character_recognition.characterRecognition("web_app/static/"+input_filename)
-   logRegister(input_filename, guess)
+   logRegister("/static/labeled_"+input_filename, guess)
    return render_template('image_check.html', preview = "static/labeled_"+input_filename, guess = guess)
+
 
 @app.route('/box')
 def boxGenerator(inputfile):
@@ -124,3 +134,4 @@ def boxGenerator(inputfile):
 
 if __name__ == '__main__':
    app.run()
+
