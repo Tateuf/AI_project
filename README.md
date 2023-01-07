@@ -96,7 +96,18 @@ Maintenant que l'on connait les coordonnées de ses rectangles, nous pouvons fai
 Nous avons décidé de dessiner les rectangles ainsi que de leur donnée un numéro pour que ce soit plus simple à comprendre lors de l'affichage des données. 
 
 - Page de sortie (LOUIS)
-- Historique (LOGAN)
+
+### Historique
+NOus avons décidé de sauvegarder chacun des traitements d'image dans un json afin de garder une trace de ce qui a été travailler. Il s'agit d'un historique global et il serait intéressant de penser à un historique propre dans le futur du projet. 
+Pour ce faire lorsque nous avons analysé un fichier, qu'il soit pdf ou image, avant de faire un retour visuel à l'utilisateur nous le faison passer dans notre fonciton de log. 
+Celle-ci va prendre en paramètres, l'emplacement du fichier traiter ainsi que le contenu qui lui est attribuer. Elle va ensuite sauvegarder dans un fichier de log :
+- La date
+- L'heure
+- Le nom du fichier 
+- L'emplacement du fichier
+- Le contenu du fichier
+
+Nous avons ensuite créer une nouvelle page dans notre frontend qui va rechercher dans ce fichier de log, les différentes données d'historique et les afficher de manière correcte avec un peu de CSS.
 
 
 ## Sources :
