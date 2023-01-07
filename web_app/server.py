@@ -101,7 +101,7 @@ def textTyped():
          guess.append(extracted_text)
          #add log entry
          logRegister(page.parent.name +" p."+ str(page.number), guess[-1])
-         return render_template('pdf_check.html', preview = "static/"+input_filename, guess = guess)
+      return render_template('pdf_check.html', preview = "static/"+input_filename, guess = guess)
    else:
       print("it's actually an image")
       for file in files:
