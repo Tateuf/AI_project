@@ -21,10 +21,10 @@ On va ensuite définir les différentes couches de notre modéle, on expliquera 
 - MaxPool2D
 - DropOut(0.25)
 
--Conv2D
--Conv2D
--MaxPool2D
--DropOut(0.25)
+- Conv2D
+- Conv2D
+- MaxPool2D
+- DropOut(0.25)
 
 - Flatten
 - Dense(256,"relu")
