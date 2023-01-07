@@ -13,19 +13,17 @@ La première étape a été de préparée les données du dataset a être trait�
 - Séparation des labels et des données associées
 - Normalisation des données 
 - Transformation des labels en classe binaires ( 1 devient par exemple 0001 ), on les sépare en dix classe différentes. Une pour chacun des chiffre 
-- On transforme 10% des données d'entrainement en données de test
+- On transforme 10% des données d'entrainement en données de validation. Ces données de validation vont être utile durant l'entrainement afin de surveiller que le modèle ne s'habitue pas trop aux données d'entrainement.
 
 On va ensuite définir les différentes couches de notre modéle, on expliquera par la suite ce que fait chacune des couches : 
 - Conv2D, filtré 32 fois avec un kernel de 5x5
 - Conv2D, filtré 32 fois avec un kernel de 5x5
 - MaxPool2D, avec un pool de taille 2x2
 - DropOut(0.25)
-<br />
 - Conv2D, filtré 64 fois avec un kernel de 3x3
 - Conv2D, filtré 64 fois avec un kernel de 3x3
 - MaxPool2D, avec un pool de taille 2x2
 - DropOut(0.25)
-<br />
 - Flatten
 - Dense(256,"relu")
 - Dropout(0.5)
@@ -41,10 +39,21 @@ Flatten : La couche flatten va nous permettre de préparer les données à être
 
 Dense : Elle prend une entrée et applique une modification à l'aide de sa fonction d'activation dans ce cas-ci relu afin de nous doonée un pourcentage de chance. Elle est connecté à tous les neurones de la zone précédente. 
 
-Le créateur du CNN a décidé d'utiliser l'algorithme RMSprop comme optimiser, 
+Le créateur du CNN a décidé d'utiliser l'algorithme RMSprop comme optimiser, l'optimiser va nous permettre de diminuer la loss en modifier le CNN. Rmsprop est un optimiser qui va utiliser un taux d'apprentissage adaptatif. Il utilise une fonction de loss de type cross-entropie, celle mesure l'écart entre la distribution de probabilité prévue du modèle et celle réelle attendue. Il utilise également des métrics "Accuracy", qui ont un rôle semblable à la loss, qui permettent d'évaluer le système. Dans ce cas-ci, l'évaluation ce déroule en regardant la fréquence à laquelle les prédictions du modèle correspondent aux labels réels. 
+
+On va également utiler la fonction ReduceLROnPlateau qui va nous permettre de réduire le taux d'apprentissage du modèle lorsque celui-ci cesse de s'améliorer. Le taux d'apprentisse étant la vitesse à laquelle se met à jour le modèle durant l'entrainement. 
+
+Pour éviter l'overfitting on a décidé de ne faire que 3 epoch, en ayant fait des tests au delà le modèle devient bien moins compétant pour les figures qu'il n'a pas eu dans son dataset. Il est trop spécialisé. 
+
+On va également utilisé le image data generator qui va nous permettre de nous entrainé avec des versions modifiés des images initiales. Il va les faire pivoter, zoomer mais également les shifter légèrement. 
+
+Après avoir enregistrer ces paramètres on va pouvoir entrainer et essayer le modèle.
+
+Lorsque l'on utilise les modèles il est important de faire en sorte de traiter les images d'input pour qu'elle correspondent à ce qui a été appris durnat l'entrainement. Il sera donc utile de les redimensionner et de modifier leur couleur. 
+
+### CNN emmnist :
 
 
-- CNN emmnist (LOGAN)
 - Bounding box (LOGAN)
 - Page de sortie (LOUIS)
 - Historique (LOGAN)
@@ -58,6 +67,9 @@ https://inside-machinelearning.com/cnn-couche-de-convolution/
 https://lesdieuxducode.com/blog/2019/1/prototyper-un-reseau-de-neurones-avec-keras
 https://stackoverflow.com/questions/43237124/what-is-the-role-of-flatten-in-keras
 https://blog.engineering.publicissapient.fr/2017/04/11/tensorflow-deep-learning-episode-3-modifiez-votre-reseau-de-neurones-en-toute-simplicite/
-
-
+https://penseeartificielle.fr/tp-reseau-de-neurones-convolutifs/
+https://medium.com/analytics-vidhya/a-complete-guide-to-adam-and-rmsprop-optimizer-75f4502d83be
+https://www.superdatascience.com/blogs/convolutional-neural-networks-cnn-softmax-crossentropy
+https://keras.io/api/metrics/accuracy_metrics/#accuracy-class
+https://pytorch.org/docs/stable/generated/torch.optim.lr_scheduler.ReduceLROnPlateau.html
 
