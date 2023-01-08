@@ -80,9 +80,57 @@ Le document soumis est lui même affiché en dessous, celui-ci est à nouveau pr
 ![pdf result 1](screenshots/pdf_check_1_screen.png)
 ![pdf result 2](screenshots/pdf_check_2_screen.png)
 
-Table des matières
-- Description des moteurs :
-- Tesseract ( LOUIS )
+### Description des moteurs :
+#### Tesseract ( LOUIS ) :  
+1. Contexte de l'outil  
+Tesseract a été développé par HP entre 1984 et 1994 pour améliorer ses scanners.  
+Le projet à ensuite été publié en open source par HP en 2005.
+
+2. Architecture globale  
+  Le type d'entrée à soumettre à tesseract est une image bianaire. Une option est disponible pour y ajouter des définitions de zones de textes de formes polygonales.  
+  Le traitement suit un processus en 3 étapes.
+    1. *connected component analysis*  
+    Cette étape consiste à détecter les contours de composants dans l'image. Cette étape est couteuse en puissance de calcul mais permet de reconnaitre les textes en blanc sur fond noir aussi facilement que ceux dans la version inverse qui est la plus couramment utilisée.  
+    Les composants détectés sont assemblés en tant que *blob* qui seront par la suite redivisés en lignes divisées elles mêmes en mots divisés eux mêmes en caractères.
+    2. Reconnaissance du texte  
+    Cette étape consiste à tenter de reconnaitre chaque mot séquentiellement dans le document. Lorsqu'un mot reconnu est considérés comme satisfaisant par le classifieur statique, il est soumis comme donnée d'entrainement au classifieur dynamique pour améliorer les résultats de reconnaissance suivants.  
+    l'étape est réalisée en 2 passes pour s'assurer d'avoir pu bénéficier de l'amélioration apportée par le classifieur dynamique sur l'ensemble du document.  
+    Les 2 classifieurs sont expliqués plus en détail dans la suite du rapport.
+    3. Reconnaissance des caractères restants  
+    Cette étape s'occupe de résoudre les problèmes associés aux *fuzzy spaces* expliqués dans la section Reconnaissance des mots de ce rapport. C'est aussi à cette étape que les textes ayant une taille de police plus petite que celle utilisée dans le reste du document sont traités
+
+3. Reconnaissance des lignes  
+La technique utilisée par Tesseract est capable d'identifier les allignements de textes même dans les cas ou ceux-ci ne sont pas horizontaux sans n'écessiter de redresser l'image. Cela permet d'éviter une perte de qualité qui pourrait impacter la qualité des résultats obtenus par des étapes subséquentes.  
+En faisant l'hypothèse que des zones de textes ont été soumises en entrée, nous pouvons utiliser la hauteur maoyenne de celles-ci pour déterminer la hauteur moyenne des caractères. Cette taille moyenne de caractère peut être utilisée pour filtrer les *blobs* identifiés par la *connected components analysis*.  
+Les *blobs* filtrés peuvent ensuite être triés en foction de leur coordonéée x pour les assigner à un ligne et calculer la pente de la ligne grâce à l'utilisation de la technique *least median of squares fit* [2]. Les *blobs* qui avaient étés rejetés par le filtres sont ensuite assigné à la bonne ligne.  
+Le traitement des lignes se poursuit en approximant la *baseline* de chaque ligne de texte par une spline quadratique. Cette *baseline* peut donc être courbe.
+4. Reconaissance des mots
+Les mots doivent être divisés en caractères pour être reconnus. Cette division peut se faire de 2 manières: 
+  - texte à espacement fixe :  Dans ce cas, il suffit de diviser le texte en cases de tailles fixes  
+  ![fixed pitch text](screenshots/fixed_pitch.png)
+  - texte proportionnel : La taille des espaces dans ces textes est variable, il faut donc déterminer un pas moyen et les espaces proche de cette moyenne sont indiqués comme *fuzzy space*. Dans l'image ci-dessous, l'espace entre "of" et "financial" est un des fuzzy space présent. Le marquage en tant que *fuzzy space* retarde la prise de décision sur le mot après qu'il ait analysé par les classifieurs.  
+  ![fixed pitch text](screenshots/proportional_text.png)
+5. Classifieurs  
+Le classifieur statique se base sur les segments des aproximations polygonales pour créer ses *features* des différents caractères lors de l'entrainement. Cependant, cette méthode n'est pas suffisante pour reconnaitre des caractères dont des parties sont anormalement disjointes. Pour y remédier, les *features* sont déterminées par des segments courts ayant des longeurs normalisées issus du contour du caractère lors de la reconnaissance. Ces nouvelles *features* sont comparées aux prototypes générés par le classifieur lors de son entrainement.  
+Le problème principal de cette méthode est l'importante puissance de calcul nécessaire pour comparer des données tellement différentes. Enffet, les *features* obtenues lors de la reconnaissance sont en 3 dimansions (x, y position, angle) à raison de 50 à 100 *features* par caractères. Les prototypes quant à eux sont en 4 dimmensions (x, y, position, angle, length) à raison de 10 à 20 *features* par configuration.  
+La robustesse de ce classifieur face aux caractères à parties manquentes à permis d'éviter de devoir inclure ce type de caractère dans le set d'entrainement. L'entrainement n'a nécessiter que 20 échantillons de 94 caractères issus de 8 polices en une taille unique. Par contre chaque échantillon était décliné en 4 variantes (normal, **gras**, *italique*, ***gras et italique***) portant le total d'échantillon à 60160.
+
+    Le classifieur dynamique utilise les mêmes *features* que le classifieur statique mais il se base sur des données d'entrainement différentes tel que précisé dans la section Reconnaissance du texte de ce rapport. Cette différence de données d'entrainement permet à ce classifieur d'être plus spécifique aux polices utilisées dans le document que le classifieur statique à conditions qu'il n'y ai pas un nombre trop important de polices différentes dans le document.  
+    L'aspect spécifique du classifieur dynamique lui permet aussi d'être plus précis dans la reconnaissance de caractères ainsi que dans le rejet du bruit.  
+    L'autre différence entre les 2 classifieurs est l'utilisation de la *baseline/x-height normalization* par le classifieur dynamique au lieu de la *moment normalization". La *baseline/x-height normalization* a l'avantage de réduire l'impact des rapports de proportions et de l'épaisseur des traits de la police. Cette technique permet également de reconnaitre efficacement la case des caractères à condition qu'il ne soit pas en indice ou en exposant bien que ces caractères soient reconnus.
+
+6. Analyse linguistique  
+  Tesseract défini les catégories linguistiques suivantes :
+      - Top frequent word
+      - Top dictionary word
+      - Top numeric word
+      - Top UPPER case word
+      - Top lower case word (with optional initial upper) 
+      - Top classifier choice word  
+
+   Le meilleur mot est calculé pour chaque catégorie.  
+   Le mot reconnu est celui qui à la distance globale la plus faible avec l'ensemble des catégories. La distance avec chaque catégorie est pondéré avec un facteur différent dans le calcul de la distance globale.  
+
 ### CNN mnist :
 Pour le moteur de reconnaissance de chiffre manuscrit, un CNN alimenté par le dataset de mnist semblait être la meilleure solution. Nous n'avons bien évidemment pas créer de toute pièce l'architecture du CNN mais nous nous sommes inspirés d'une solution trouvée sur Kaggle : 
 https://www.kaggle.com/code/abdelwahed43/handwritten-digits-recognizer-0-999-simple-model
@@ -107,6 +155,10 @@ On va ensuite définir les différentes couches de notre modéle, on expliquera 
 - Dense(256,"relu")
 - Dropout(0.5)
 - Dense(10, "softmax")
+<br />
+
+![image](https://user-images.githubusercontent.com/75576766/211188929-baa9a43f-f432-4060-920a-55fcad16ca47.png)
+
 
 Conv2D : Cette couche va nous permettre de créer un kernel qui va etre convolué avec l'input pour donner l'output. Cette couche va nous permettre de nous focaliser sur les détails de l'image. 
 
@@ -152,6 +204,10 @@ On va ensuite définir les différentes couches de notre modèle :
 - Dense(128)
 - Dense(27)
 
+<br />
+
+![emnist](https://user-images.githubusercontent.com/75576766/211189465-c0a095d9-0640-4d59-9eef-d3d86a8b3371.png)
+
 Nous utilisons un optimiser RMSprop, avec une fonction de loss categorical_crossentropy et les mêmes metrics que pour mnist. 
 
 On a mis en place de l'earlystoping et ReduceLROnPlateau, on a fait 5 epoch.
@@ -191,6 +247,8 @@ Nous avons ensuite créer une nouvelle page dans notre frontend qui va recherche
 
 
 ## Sources :
+[1] SMITH, Ray. An overview of the Tesseract OCR engine. In : Ninth international conference on document analysis and recognition (ICDAR 2007). IEEE, 2007. p. 629-633.
+[2] ROUSSEEUW, Peter J. et LEROY, Annick M. Robust regression and outlier detection. John wiley & sons, 2005.
 - https://www.kaggle.com/code/abdelwahed43/handwritten-digits-recognizer-0-999-simple-model
 - https://inside-machinelearning.com/le-dropout-cest-quoi-deep-learning-explication-rapide/
 - https://fr.wikipedia.org/wiki/Max_pooling
@@ -205,3 +263,19 @@ Nous avons ensuite créer une nouvelle page dans notre frontend qui va recherche
 - https://pytorch.org/docs/stable/generated/torch.optim.lr_scheduler.ReduceLROnPlateau.html
 - https://stackoverflow.com/questions/57249273/how-to-detect-paragraphs-in-a-text-document-image-for-a-non-consistent-text-stru
 - https://docs.opencv.org/4.x/d7/d4d/tutorial_py_thresholding.html
+- https://storage.googleapis.com/pub-tools-public-publication-data/pdf/33418.pdf
+- [1] Abdelwahed43. (n.d.). Handwritten Digits Recognizer 0-999 - Simple Model. Kaggle. Retrieved January 8, 2023, from https://www.kaggle.com/code/abdelwahed43/handwritten-digits-recognizer-0-999-simple-model
+- [2] Le Dropout, c'est quoi ? (n.d.). Inside Machine Learning. Retrieved January 8, 2023, from https://inside-machinelearning.com/le-dropout-cest-quoi-deep-learning-explication-rapide/
+- [3] Max pooling. (n.d.). Wikipedia. Retrieved January 8, 2023, from https://fr.wikipedia.org/wiki/Max_pooling
+- [4] La couche de convolution. (n.d.). Inside Machine Learning. Retrieved January 8, 2023, from https://inside-machinelearning.com/cnn-couche-de-convolution/
+- [5] Prototyper un réseau de neurones avec Keras. (2019, January). Les Dieux du Code. Retrieved January 8, 2023, from https://lesdieuxducode.com/blog/2019/1/prototyper-un-reseau-de-neurones-avec-keras
+- [6] What is the role of Flatten in Keras? (n.d.). Stack Overflow. Retrieved January 8, 2023, from https://stackoverflow.com/questions/43237124/what-is-the-role-of-flatten-in-keras
+- [7] Modifiez votre réseau de neurones en toute simplicité. (2017, April 11). Engineering Blog. Retrieved January 8, 2023, from https://blog.engineering.publicissapient.fr/2017/04/11/tensorflow-deep-learning-episode-3-modifiez-votre-reseau-de-neurones-en-toute-simplicite/
+- [8] TP: Réseau de neurones convolutionnels. (n.d.). Pensee Artificielle. Retrieved January 8, 2023, from https://penseeartificielle.fr/tp-reseau-de-neurones-convolutifs/
+- [9] A Complete Guide to Adam and RMSprop Optimizer. (n.d.). Analytics Vidhya. Retrieved January 8, 2023, from https://medium.com/analytics-vidhya/a-complete-guide-to-adam-and-rmsprop-optimizer-75f4502d83be
+- [10] Convolutional Neural Networks (CNN) - Softmax & CrossEntropy. (n.d.). Super Data Science. Retrieved January 8, 2023, from https://www.superdatascience.com/blogs/convolutional-neural-networks-cnn-softmax-crossentropy
+- [11] Keras API Reference - Metrics - Accuracy. (n.d.). Keras. Retrieved January 8, 2023, from https://keras.io/api/metrics/accuracy_metrics/#accuracy-class
+- [12] torch.optim.lr_scheduler.ReduceLROnPlateau. (n.d.). PyTorch. Retrieved January 8, 2023, from https://pytorch.org/docs/stable/generated/torch.optim.lr_scheduler.ReduceLROnPlateau.html
+- [13] How to detect paragraphs in a text document image for a non-consistent text structure? (n.d.). Stack Overflow. Retrieved January 8, 2023, from https://stackoverflow.com/questions/57249273/how-to-detect-paragraphs-in-a-text-document-image-for-a-non-consistent-text-stru
+- [14] Thresholding. (n.d.). OpenCV documentation. Retrieved January 8, 2023, from https://docs.opencv.org/4.x/d7/d4d/tutorial_py_thresholding.html
+
