@@ -93,7 +93,7 @@ Le projet à ensuite été publié en open source par HP en 2005.
     Cette étape consiste à détecter les contours de composants dans l'image. Cette étape est couteuse en puissance de calcul mais permet de reconnaitre les textes en blanc sur fond noir aussi facilement que ceux dans la version inverse qui est la plus couramment utilisée.  
     Les composants détectés sont assemblés en tant que *blob* qui seront par la suite redivisés en lignes divisées elles mêmes en mots divisés eux mêmes en caractères.
     2. Reconnaissance du texte  
-    Cette étape consiste à tenter de reconnaitre chaque mot séquentiellement dans le document. Lorsqu'un mot reconnu est considérés comme satisfaisant par le classifieur statique, il est soumis comme donnée d'entrainement au classifieur dynamique pour améliorer les résultats de reconnaissance suivants.  
+    Cette étape consiste à tenter de reconnaitre chaque mot séquentiellement dans le document. Lorsqu'un mot reconnu est considéré comme satisfaisant par le classifieur statique, il est soumis comme donnée d'entrainement au classifieur dynamique pour améliorer les résultats de reconnaissance suivants.  
     l'étape est réalisée en 2 passes pour s'assurer d'avoir pu bénéficier de l'amélioration apportée par le classifieur dynamique sur l'ensemble du document.  
     Les 2 classifieurs sont expliqués plus en détail dans la suite du rapport.
     3. Reconnaissance des caractères restants  
@@ -113,7 +113,7 @@ Les mots doivent être divisés en caractères pour être reconnus. Cette divisi
 5. Classifieurs  
 Le classifieur statique se base sur les segments des aproximations polygonales pour créer ses *features* des différents caractères lors de l'entrainement. Cependant, cette méthode n'est pas suffisante pour reconnaitre des caractères dont des parties sont anormalement disjointes. Pour y remédier, les *features* sont déterminées par des segments courts ayant des longeurs normalisées issus du contour du caractère lors de la reconnaissance. Ces nouvelles *features* sont comparées aux prototypes générés par le classifieur lors de son entrainement.  
 Le problème principal de cette méthode est l'importante puissance de calcul nécessaire pour comparer des données tellement différentes. Enffet, les *features* obtenues lors de la reconnaissance sont en 3 dimansions (x, y position, angle) à raison de 50 à 100 *features* par caractères. Les prototypes quant à eux sont en 4 dimmensions (x, y, position, angle, length) à raison de 10 à 20 *features* par configuration.  
-La robustesse de ce classifieur face aux caractères à parties manquentes à permis d'éviter de devoir inclure ce type de caractère dans le set d'entrainement. L'entrainement n'a nécessiter que 20 échantillons de 94 caractères issus de 8 polices en une taille unique. Par contre chaque échantillon était décliné en 4 variantes (normal, **gras**, *italique*, ***gras et italique***) portant le total d'échantillon à 60160.
+La robustesse de ce classifieur face aux caractères à parties manquantes à permis d'éviter de devoir inclure ce type de caractère dans le set d'entrainement. L'entrainement n'a nécessiter que 20 échantillons de 94 caractères issus de 8 polices en une taille unique. Par contre chaque échantillon était décliné en 4 variantes (normal, **gras**, *italique*, ***gras et italique***) portant le total d'échantillon à 60160.
 
     Le classifieur dynamique utilise les mêmes *features* que le classifieur statique mais il se base sur des données d'entrainement différentes tel que précisé dans la section Reconnaissance du texte de ce rapport. Cette différence de données d'entrainement permet à ce classifieur d'être plus spécifique aux polices utilisées dans le document que le classifieur statique à conditions qu'il n'y ai pas un nombre trop important de polices différentes dans le document.  
     L'aspect spécifique du classifieur dynamique lui permet aussi d'être plus précis dans la reconnaissance de caractères ainsi que dans le rejet du bruit.  
@@ -129,13 +129,13 @@ La robustesse de ce classifieur face aux caractères à parties manquentes à pe
       - Top classifier choice word  
 
    Le meilleur mot est calculé pour chaque catégorie.  
-   Le mot reconnu est celui qui à la distance globale la plus faible avec l'ensemble des catégories. La distance avec chaque catégorie est pondéré avec un facteur différent dans le calcul de la distance globale.  
+   Le mot reconnu est celui qui à la distance globale la plus faible avec l'ensemble des catégories. La distance avec chaque catégorie est pondérée avec un facteur différent dans le calcul de la distance globale.  
 
 #### CNN mnist :
 Pour le moteur de reconnaissance de chiffre manuscrit, un CNN alimenté par le dataset de mnist semblait être la meilleure solution. Nous n'avons bien évidemment pas créer de toute pièce l'architecture du CNN mais nous nous sommes inspirés d'une solution trouvée sur Kaggle : 
 https://www.kaggle.com/code/abdelwahed43/handwritten-digits-recognizer-0-999-simple-model
 
-La première étape a été de préparée les données du dataset a être traitée :
+La première étape a été de préparer les données du dataset a être traitée :
 - Séparation des labels et des données associées
 - Normalisation des données 
 - Reshapping des données 
