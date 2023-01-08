@@ -15,7 +15,8 @@ Notre application comporte 3 onglets:
 - About : renvoie vers le repository github contenant cette documentation ainsi que le code source
 
 Nous allons nous focaliser en premier lieu sur les fonctionnalités de l'onglet *Home* visible ci-dessous.  
-![image upload](screenshots/main_screen.png)
+![main_screen](https://user-images.githubusercontent.com/75576766/211205583-a025fd2b-2362-40aa-8d47-bb2260a4f400.PNG)
+
 - Chargement d'un document :  
 Nous avons un bouton en haut à gauche qui permet à l'utilisateur de sélectionner un document stocké sur son appareil.  
 L'utilisateur peux soumettre une image jpeg ou png ainsi qu'un fichier pdf.  
