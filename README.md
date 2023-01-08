@@ -156,6 +156,10 @@ On va ensuite définir les différentes couches de notre modèle :
 - Dense(128)
 - Dense(27)
 
+<br />
+
+![emnist](https://user-images.githubusercontent.com/75576766/211189465-c0a095d9-0640-4d59-9eef-d3d86a8b3371.png)
+
 Nous utilisons un optimiser RMSprop, avec une fonction de loss categorical_crossentropy et les mêmes metrics que pour mnist. 
 
 On a mis en place de l'earlystoping et ReduceLROnPlateau, on a fait 5 epoch.
