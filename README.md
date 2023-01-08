@@ -108,6 +108,7 @@ On va ensuite définir les différentes couches de notre modéle, on expliquera 
 - Dropout(0.5)
 - Dense(10, "softmax")
 <br />
+
 ![image](https://user-images.githubusercontent.com/75576766/211188929-baa9a43f-f432-4060-920a-55fcad16ca47.png)
 
 
