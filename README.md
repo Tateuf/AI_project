@@ -155,6 +155,10 @@ On va ensuite définir les différentes couches de notre modéle, on expliquera 
 - Dense(256,"relu")
 - Dropout(0.5)
 - Dense(10, "softmax")
+<br />
+
+![image](https://user-images.githubusercontent.com/75576766/211188929-baa9a43f-f432-4060-920a-55fcad16ca47.png)
+
 
 Conv2D : Cette couche va nous permettre de créer un kernel qui va etre convolué avec l'input pour donner l'output. Cette couche va nous permettre de nous focaliser sur les détails de l'image. 
 
@@ -200,6 +204,10 @@ On va ensuite définir les différentes couches de notre modèle :
 - Dense(128)
 - Dense(27)
 
+<br />
+
+![emnist](https://user-images.githubusercontent.com/75576766/211189465-c0a095d9-0640-4d59-9eef-d3d86a8b3371.png)
+
 Nous utilisons un optimiser RMSprop, avec une fonction de loss categorical_crossentropy et les mêmes metrics que pour mnist. 
 
 On a mis en place de l'earlystoping et ReduceLROnPlateau, on a fait 5 epoch.
@@ -226,7 +234,7 @@ Nous avons décidé de dessiner les rectangles ainsi que de leur donnée un num�
 - Page de sortie (LOUIS)
 
 ### Historique
-NOus avons décidé de sauvegarder chacun des traitements d'image dans un json afin de garder une trace de ce qui a été travailler. Il s'agit d'un historique global et il serait intéressant de penser à un historique propre dans le futur du projet. 
+Nous avons décidé de sauvegarder chacun des traitements d'image dans un json afin de garder une trace de ce qui a été travailler. Il s'agit d'un historique global et il serait intéressant de penser à un historique propre dans le futur du projet. 
 Pour ce faire lorsque nous avons analysé un fichier, qu'il soit pdf ou image, avant de faire un retour visuel à l'utilisateur nous le faison passer dans notre fonciton de log. 
 Celle-ci va prendre en paramètres, l'emplacement du fichier traiter ainsi que le contenu qui lui est attribuer. Elle va ensuite sauvegarder dans un fichier de log :
 - La date
@@ -256,3 +264,18 @@ Nous avons ensuite créer une nouvelle page dans notre frontend qui va recherche
 - https://stackoverflow.com/questions/57249273/how-to-detect-paragraphs-in-a-text-document-image-for-a-non-consistent-text-stru
 - https://docs.opencv.org/4.x/d7/d4d/tutorial_py_thresholding.html
 - https://storage.googleapis.com/pub-tools-public-publication-data/pdf/33418.pdf
+- [1] Abdelwahed43. (n.d.). Handwritten Digits Recognizer 0-999 - Simple Model. Kaggle. Retrieved January 8, 2023, from https://www.kaggle.com/code/abdelwahed43/handwritten-digits-recognizer-0-999-simple-model
+- [2] Le Dropout, c'est quoi ? (n.d.). Inside Machine Learning. Retrieved January 8, 2023, from https://inside-machinelearning.com/le-dropout-cest-quoi-deep-learning-explication-rapide/
+- [3] Max pooling. (n.d.). Wikipedia. Retrieved January 8, 2023, from https://fr.wikipedia.org/wiki/Max_pooling
+- [4] La couche de convolution. (n.d.). Inside Machine Learning. Retrieved January 8, 2023, from https://inside-machinelearning.com/cnn-couche-de-convolution/
+- [5] Prototyper un réseau de neurones avec Keras. (2019, January). Les Dieux du Code. Retrieved January 8, 2023, from https://lesdieuxducode.com/blog/2019/1/prototyper-un-reseau-de-neurones-avec-keras
+- [6] What is the role of Flatten in Keras? (n.d.). Stack Overflow. Retrieved January 8, 2023, from https://stackoverflow.com/questions/43237124/what-is-the-role-of-flatten-in-keras
+- [7] Modifiez votre réseau de neurones en toute simplicité. (2017, April 11). Engineering Blog. Retrieved January 8, 2023, from https://blog.engineering.publicissapient.fr/2017/04/11/tensorflow-deep-learning-episode-3-modifiez-votre-reseau-de-neurones-en-toute-simplicite/
+- [8] TP: Réseau de neurones convolutionnels. (n.d.). Pensee Artificielle. Retrieved January 8, 2023, from https://penseeartificielle.fr/tp-reseau-de-neurones-convolutifs/
+- [9] A Complete Guide to Adam and RMSprop Optimizer. (n.d.). Analytics Vidhya. Retrieved January 8, 2023, from https://medium.com/analytics-vidhya/a-complete-guide-to-adam-and-rmsprop-optimizer-75f4502d83be
+- [10] Convolutional Neural Networks (CNN) - Softmax & CrossEntropy. (n.d.). Super Data Science. Retrieved January 8, 2023, from https://www.superdatascience.com/blogs/convolutional-neural-networks-cnn-softmax-crossentropy
+- [11] Keras API Reference - Metrics - Accuracy. (n.d.). Keras. Retrieved January 8, 2023, from https://keras.io/api/metrics/accuracy_metrics/#accuracy-class
+- [12] torch.optim.lr_scheduler.ReduceLROnPlateau. (n.d.). PyTorch. Retrieved January 8, 2023, from https://pytorch.org/docs/stable/generated/torch.optim.lr_scheduler.ReduceLROnPlateau.html
+- [13] How to detect paragraphs in a text document image for a non-consistent text structure? (n.d.). Stack Overflow. Retrieved January 8, 2023, from https://stackoverflow.com/questions/57249273/how-to-detect-paragraphs-in-a-text-document-image-for-a-non-consistent-text-stru
+- [14] Thresholding. (n.d.). OpenCV documentation. Retrieved January 8, 2023, from https://docs.opencv.org/4.x/d7/d4d/tutorial_py_thresholding.html
+
