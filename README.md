@@ -107,6 +107,9 @@ On va ensuite définir les différentes couches de notre modéle, on expliquera 
 - Dense(256,"relu")
 - Dropout(0.5)
 - Dense(10, "softmax")
+<br />
+![image](https://user-images.githubusercontent.com/75576766/211188929-baa9a43f-f432-4060-920a-55fcad16ca47.png)
+
 
 Conv2D : Cette couche va nous permettre de créer un kernel qui va etre convolué avec l'input pour donner l'output. Cette couche va nous permettre de nous focaliser sur les détails de l'image. 
 
