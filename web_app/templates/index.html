@@ -18,13 +18,15 @@
         <option value="/emnist">Hand Written</option>
       </select>
 </p>
+  <p>Your input:</p>
+  <iframe id="pdf-viewer" width="800" height="1200"></iframe>
   <div>
     <canvas id="canvas">
       Your browser does not support the HTML5 canvas element.
     </canvas>
   </div>
 
-  <iframe id="pdf-viewer" width="800" height="1200"></iframe>
+  
   
       
 <style>
@@ -52,6 +54,10 @@ img {
 
 
 <script>  
+const iframe = document.getElementById("pdf-viewer");
+const canvas_view = document.getElementById("canvas");
+iframe.style.display = "none";
+canvas_view.style.display ="none";
   var canvas  = $("#canvas"),
     context = canvas.get(0).getContext("2d"),
     $result = $('#result');
@@ -59,6 +65,8 @@ img {
 $('#fileInput').on( 'change', function(){
     if (this.files && this.files[0]) {
       if ( this.files[0].type.match(/^image\//)) {
+        iframe.style.display = "none";
+        canvas_view.style.display ="block";
         canvas.cropper('destroy');
         var reader = new FileReader();
         reader.onload = function(evt) {
@@ -133,6 +141,8 @@ $('#fileInput').on( 'change', function(){
         }
         
         else if (this.files[0].type.match(/pdf$/) ) {
+        iframe.style.display = "block";
+        canvas_view.style.display ="none";
         console.log("it's a pdf")
         var reader = new FileReader();
         reader.onload = function(evt) {
