@@ -100,13 +100,13 @@ def textTyped():
          file_names.append(input_filename[:-4]+"_{}_c.png".format(i))
          guess.append(extracted_text)
          #add log entry
-         logRegister(page.parent.name +" p."+ str(page.number), guess[-1])
+         logRegister("static/"+input_filename[:-4]+"_{}_c.png".format(i), guess[-1])
       return render_template('pdf_check.html', preview = "static/"+input_filename, guess = guess)
    else:
       print("it's actually an image")
       for file in files:
          guess.append(tesseract.tesseract("web_app/static/"+file))
-         logRegister(file, guess[-1])
+         logRegister("static/"+file, guess[-1])
          # with open("web_app/static/"+file, "rb") as data_file:
          #    data = data_file.read()
          # encoded_file = base64.b64encode(data).decode('utf-8')
