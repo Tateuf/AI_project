@@ -247,23 +247,7 @@ Nous avons ensuite créer une nouvelle page dans notre frontend qui va recherche
 
 
 ## Sources :
-[1] SMITH, Ray. An overview of the Tesseract OCR engine. In : Ninth international conference on document analysis and recognition (ICDAR 2007). IEEE, 2007. p. 629-633.
-[2] ROUSSEEUW, Peter J. et LEROY, Annick M. Robust regression and outlier detection. John wiley & sons, 2005.
-- https://www.kaggle.com/code/abdelwahed43/handwritten-digits-recognizer-0-999-simple-model
-- https://inside-machinelearning.com/le-dropout-cest-quoi-deep-learning-explication-rapide/
-- https://fr.wikipedia.org/wiki/Max_pooling
-- https://inside-machinelearning.com/cnn-couche-de-convolution/
-- https://lesdieuxducode.com/blog/2019/1/prototyper-un-reseau-de-neurones-avec-keras
-- https://stackoverflow.com/questions/43237124/what-is-the-role-of-flatten-in-keras
-- https://blog.engineering.publicissapient.fr/2017/04/11/tensorflow-deep-learning-episode-3-modifiez-votre-reseau-de-neurones-en-toute-simplicite/
-- https://penseeartificielle.fr/tp-reseau-de-neurones-convolutifs/
-- https://medium.com/analytics-vidhya/a-complete-guide-to-adam-and-rmsprop-optimizer-75f4502d83be
-- https://www.superdatascience.com/blogs/convolutional-neural-networks-cnn-softmax-crossentropy
-- https://keras.io/api/metrics/accuracy_metrics/#accuracy-class
-- https://pytorch.org/docs/stable/generated/torch.optim.lr_scheduler.ReduceLROnPlateau.html
-- https://stackoverflow.com/questions/57249273/how-to-detect-paragraphs-in-a-text-document-image-for-a-non-consistent-text-stru
-- https://docs.opencv.org/4.x/d7/d4d/tutorial_py_thresholding.html
-- https://storage.googleapis.com/pub-tools-public-publication-data/pdf/33418.pdf
+
 - [1] Abdelwahed43. (n.d.). Handwritten Digits Recognizer 0-999 - Simple Model. Kaggle. Retrieved January 8, 2023, from https://www.kaggle.com/code/abdelwahed43/handwritten-digits-recognizer-0-999-simple-model
 - [2] Le Dropout, c'est quoi ? (n.d.). Inside Machine Learning. Retrieved January 8, 2023, from https://inside-machinelearning.com/le-dropout-cest-quoi-deep-learning-explication-rapide/
 - [3] Max pooling. (n.d.). Wikipedia. Retrieved January 8, 2023, from https://fr.wikipedia.org/wiki/Max_pooling
@@ -278,4 +262,8 @@ Nous avons ensuite créer une nouvelle page dans notre frontend qui va recherche
 - [12] torch.optim.lr_scheduler.ReduceLROnPlateau. (n.d.). PyTorch. Retrieved January 8, 2023, from https://pytorch.org/docs/stable/generated/torch.optim.lr_scheduler.ReduceLROnPlateau.html
 - [13] How to detect paragraphs in a text document image for a non-consistent text structure? (n.d.). Stack Overflow. Retrieved January 8, 2023, from https://stackoverflow.com/questions/57249273/how-to-detect-paragraphs-in-a-text-document-image-for-a-non-consistent-text-stru
 - [14] Thresholding. (n.d.). OpenCV documentation. Retrieved January 8, 2023, from https://docs.opencv.org/4.x/d7/d4d/tutorial_py_thresholding.html
-
+- [15] SMITH, Ray. An overview of the Tesseract OCR engine. In : Ninth international conference on document analysis and recognition (ICDAR 2007). IEEE, 2007. p. 629-633.
+- [16] ROUSSEEUW, Peter J. et LEROY, Annick M. Robust regression and outlier detection. John wiley & sons, 2005.
+- [17] Simple Cropper.js Demo (n.d). codepen.io Retrieved January 8, 2023, from https://codepen.io/blackjacques/pen/bqgNoa
+- [18] Using files from web applications - Web APIs | MDN (n.d). developer.mozilla.org Retrieved January 8, 2023, from https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications#example_using_object_urls_to_display_images
+- [19] PyMuPDF Documentation — PyMuPDF 1.21.1 documentation (n.d). pymupdf.readthedocs.io Retrieved January 8, 2023, from https://pymupdf.readthedocs.io/en/latest/toc.html
