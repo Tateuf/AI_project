@@ -21,8 +21,6 @@ def text_detection(img):
     for c in cnts:
         x,y,w,h = cv2.boundingRect(c)
         answer.append([x,y,w,h])
-        #cropped_image = image[y:y+h, x:x+w]
-        #cv2.imwrite("web_app/static/cropped/"+img+"/"+str(i)+".png", cropped_image)
         cv2.rectangle(image, (x, y), (x + w, y + h), (36,255,12), 2)
         cv2.putText(image, str(i), (x+ w , y + h), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0,0,0), 2)
         i += 1

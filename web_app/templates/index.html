@@ -49,7 +49,6 @@ img {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.3/cropper.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.2.228/pdf.min.js"></script>
-<!-- <script src="https://cdnjs.com/libraries/pdf.js"></script> -->
 <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
 
 
@@ -79,13 +78,7 @@ $('#fileInput').on( 'change', function(){
                viewMode: 1,
                autoCropArea: 0.2
              });
-            //  $('#btnBox').click(function() {
-            //     // Get a string base 64 data url
-            //     canvas.cropper('destroy');
-                
-            //     var croppedImageDataURL = canvas.cropper('getCroppedCanvas').toDataURL("image/png");
-            //     // $result.append( $('<img>').attr('src', croppedImageDataURL) );
-            //  });
+           
              $('#btnRestore').click(function() {
                canvas.cropper('reset');
                $result.empty();
@@ -128,10 +121,7 @@ $('#fileInput').on( 'change', function(){
                   console.log(response.data)
                   document.write(response.data)
                 })
-                // axios.post('/digit', data, config).then(response => {
-                //   console.log(response.data)
-                //   document.write(response.data)
-                // })
+                
 
               });
             };
@@ -162,10 +152,6 @@ $('#fileInput').on( 'change', function(){
                   console.log(response.data)
                   document.write(response.data)
                 })
-                // axios.post('/digit', data, config).then(response => {
-                //   console.log(response.data)
-                //   document.write(response.data)
-                // })
 
               });
           };

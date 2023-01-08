@@ -107,14 +107,9 @@ def textTyped():
       for file in files:
          guess.append(tesseract.tesseract("web_app/static/"+file))
          logRegister("static/"+file, guess[-1])
-         # with open("web_app/static/"+file, "rb") as data_file:
-         #    data = data_file.read()
-         # encoded_file = base64.b64encode(data).decode('utf-8')
-      # return render_template('image_check.html', preview = "static/"+files[0], guess = guess, encoded_file = encoded_file )
       return render_template('pdf_check.html', preview = "static/"+files[0], guess = guess)
 
-   # return render_template('pdf_check.html', preview = "static/"+input_filename, guess = guess)
-   # return render_template('pdf_check.html', preview = file_names[], guess = guess)
+
 
 @app.route('/emnist', methods=('GET', 'POST'))
 def handwritten():
@@ -129,7 +124,6 @@ def handwritten():
 def boxGenerator(inputfile):
    text_detection.text_detection(img)
    boxed_img = "some future image"
-   # boxed_img = cv2.boundingbox(inputfile)
    return boxed_img
 
 if __name__ == '__main__':

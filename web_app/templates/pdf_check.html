@@ -14,13 +14,10 @@
     
     
     <h2>Your Input</h2>
-    <!-- <img src="{{ preview }}" alt="Uploaded image"> -->
     <h3>{{file}}</h3>
-    <!-- <img src="{{ url_for('static', filename=file) }}" alt="Uploaded image"> -->
     <iframe id="pdf-viewer" width="800" height="1200"></iframe>
 
     <script>
-        // const obj_url = URL.createObjectURL({{preview}});
         const obj_url = "{{preview}}";
         const iframe = document.getElementById('pdf-viewer');
         iframe.setAttribute('src', obj_url);
