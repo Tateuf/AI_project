@@ -178,7 +178,7 @@ Nous avons décidé de dessiner les rectangles ainsi que de leur donnée un num�
 - Page de sortie (LOUIS)
 
 ### Historique
-NOus avons décidé de sauvegarder chacun des traitements d'image dans un json afin de garder une trace de ce qui a été travailler. Il s'agit d'un historique global et il serait intéressant de penser à un historique propre dans le futur du projet. 
+Nous avons décidé de sauvegarder chacun des traitements d'image dans un json afin de garder une trace de ce qui a été travailler. Il s'agit d'un historique global et il serait intéressant de penser à un historique propre dans le futur du projet. 
 Pour ce faire lorsque nous avons analysé un fichier, qu'il soit pdf ou image, avant de faire un retour visuel à l'utilisateur nous le faison passer dans notre fonciton de log. 
 Celle-ci va prendre en paramètres, l'emplacement du fichier traiter ainsi que le contenu qui lui est attribuer. Elle va ensuite sauvegarder dans un fichier de log :
 - La date
