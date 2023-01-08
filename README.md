@@ -199,17 +199,18 @@ Nous avons ensuite créer une nouvelle page dans notre frontend qui va recherche
 
 
 ## Sources :
-- https://www.kaggle.com/code/abdelwahed43/handwritten-digits-recognizer-0-999-simple-model
-- https://inside-machinelearning.com/le-dropout-cest-quoi-deep-learning-explication-rapide/
-- https://fr.wikipedia.org/wiki/Max_pooling
-- https://inside-machinelearning.com/cnn-couche-de-convolution/
-- https://lesdieuxducode.com/blog/2019/1/prototyper-un-reseau-de-neurones-avec-keras
-- https://stackoverflow.com/questions/43237124/what-is-the-role-of-flatten-in-keras
-- https://blog.engineering.publicissapient.fr/2017/04/11/tensorflow-deep-learning-episode-3-modifiez-votre-reseau-de-neurones-en-toute-simplicite/
-- https://penseeartificielle.fr/tp-reseau-de-neurones-convolutifs/
-- https://medium.com/analytics-vidhya/a-complete-guide-to-adam-and-rmsprop-optimizer-75f4502d83be
-- https://www.superdatascience.com/blogs/convolutional-neural-networks-cnn-softmax-crossentropy
-- https://keras.io/api/metrics/accuracy_metrics/#accuracy-class
-- https://pytorch.org/docs/stable/generated/torch.optim.lr_scheduler.ReduceLROnPlateau.html
-- https://stackoverflow.com/questions/57249273/how-to-detect-paragraphs-in-a-text-document-image-for-a-non-consistent-text-stru
-- https://docs.opencv.org/4.x/d7/d4d/tutorial_py_thresholding.html
+- [1] Abdelwahed43. (n.d.). Handwritten Digits Recognizer 0-999 - Simple Model. Kaggle. Retrieved January 8, 2023, from https://www.kaggle.com/code/abdelwahed43/handwritten-digits-recognizer-0-999-simple-model
+- [2] Le Dropout, c'est quoi ? (n.d.). Inside Machine Learning. Retrieved January 8, 2023, from https://inside-machinelearning.com/le-dropout-cest-quoi-deep-learning-explication-rapide/
+- [3] Max pooling. (n.d.). Wikipedia. Retrieved January 8, 2023, from https://fr.wikipedia.org/wiki/Max_pooling
+- [4] La couche de convolution. (n.d.). Inside Machine Learning. Retrieved January 8, 2023, from https://inside-machinelearning.com/cnn-couche-de-convolution/
+- [5] Prototyper un réseau de neurones avec Keras. (2019, January). Les Dieux du Code. Retrieved January 8, 2023, from https://lesdieuxducode.com/blog/2019/1/prototyper-un-reseau-de-neurones-avec-keras
+- [6] What is the role of Flatten in Keras? (n.d.). Stack Overflow. Retrieved January 8, 2023, from https://stackoverflow.com/questions/43237124/what-is-the-role-of-flatten-in-keras
+- [7] Modifiez votre réseau de neurones en toute simplicité. (2017, April 11). Engineering Blog. Retrieved January 8, 2023, from https://blog.engineering.publicissapient.fr/2017/04/11/tensorflow-deep-learning-episode-3-modifiez-votre-reseau-de-neurones-en-toute-simplicite/
+- [8] TP: Réseau de neurones convolutionnels. (n.d.). Pensee Artificielle. Retrieved January 8, 2023, from https://penseeartificielle.fr/tp-reseau-de-neurones-convolutifs/
+- [9] A Complete Guide to Adam and RMSprop Optimizer. (n.d.). Analytics Vidhya. Retrieved January 8, 2023, from https://medium.com/analytics-vidhya/a-complete-guide-to-adam-and-rmsprop-optimizer-75f4502d83be
+- [10] Convolutional Neural Networks (CNN) - Softmax & CrossEntropy. (n.d.). Super Data Science. Retrieved January 8, 2023, from https://www.superdatascience.com/blogs/convolutional-neural-networks-cnn-softmax-crossentropy
+- [11] Keras API Reference - Metrics - Accuracy. (n.d.). Keras. Retrieved January 8, 2023, from https://keras.io/api/metrics/accuracy_metrics/#accuracy-class
+- [12] torch.optim.lr_scheduler.ReduceLROnPlateau. (n.d.). PyTorch. Retrieved January 8, 2023, from https://pytorch.org/docs/stable/generated/torch.optim.lr_scheduler.ReduceLROnPlateau.html
+- [13] How to detect paragraphs in a text document image for a non-consistent text structure? (n.d.). Stack Overflow. Retrieved January 8, 2023, from https://stackoverflow.com/questions/57249273/how-to-detect-paragraphs-in-a-text-document-image-for-a-non-consistent-text-stru
+- [14] Thresholding. (n.d.). OpenCV documentation. Retrieved January 8, 2023, from https://docs.opencv.org/4.x/d7/d4d/tutorial_py_thresholding.html
+
