@@ -1,6 +1,6 @@
 # AI_project
 ## Description du processus
-### Explication de l'interface ( LOUIS )
+### Explication de l'interface 
 L'interface aussi appelée UI dans la suite de ce document à pour but de faciliter l'utilisation de techniques de reconnaisance de caractères.
 
  L'OCR ou *Optical character recognition* est un terme couvrant l'ensemble des méthodes permettant d'extraire du *texte* présent dans un document. Le *texte* dans ce contexe peut autant être composé des chiffres que des lettres.  
@@ -45,11 +45,11 @@ Nous avons actuellement 3 moteurs à disposition:
 - Soumission du document au moteur OCR :  
 Le bouton *launch OCR* envoie la requête POST vers le bon url de notre api en focntion du choix de moteur par l'utilisateur en ajoutant le document en tant que form-data pour que le traitement puisse démarrer en backend.  
 
-### Traitement de l'entrée ( LOUIS )
+### Traitement de l'entrée 
 Les 3 moteurs commencent par éxécuter une même foction appelée *fileUpload()*. Cette fonction s'occupe de sauvegarder le document reçu avec la requête POST dans un dossier accessible à tous les moteurs dans le backend.  
 Lorsque le fichier est un pdf, la fonction sauvegarde en plus une image de chaque page du fichier pour permettre d'afficher les apperçus dans l'onglet *Historic*   
 
-### Choix du moteur d'OCR par l'utilisateur ( LOUIS )
+### Choix du moteur d'OCR par l'utilisateur 
 Notre application propose actuellement 3 moteurs : 
 - Digit  
 Comme son nom l'indique, c'est le moteur à privilégier pour la reconaissance de chiffres.  
@@ -67,21 +67,21 @@ La qualité du résultat obtenu dépend beaucoup de la qualité du document d'en
 Il ne faut pas être trop étonné si le résultat qu'on obtient est un chiffrre car ce moteur est aussi capable de reconnaitre des chiffres manuscrits. Cependant, il est bien moins efficace que le moteur *digit* dans ce cas de figure.  
 
 
-### Affichage du résultat ( LOUIS )
+### Affichage du résultat 
 Le template de la page de résultat dépend du type de fichier soumis.  
 - Pour une image :  
 Nous affichons l'impression brute d'un dictionnaire ayant pour clé le numéro de la boundingbox et pour valeur le texte extrait de cette boundingbox.  
-Nous affichons égallement en dessous une copie du document soumis sur laquelle les boundingbox ainsi que leurs numéros respectifs apparaissent.
+Nous affichons égallement en dessous une copie du document soumis sur laquelle les boundingbox ainsi que leurs numéros respectifs apparaissent. <br />
 ![img result](screenshots/img_check_screen.png)
 
 - Pour un pdf :  
 Nous affichons une version reformatée du contenu extrait. Cet affichage tient compte des retours à la ligne présents dans le résultat obtenu afin que l'affichage du contenu soit le plus fidèle possible au document original.  
-Le document soumis est lui même affiché en dessous, celui-ci est à nouveau présenté dans le même type de lecteur de pdf que celui utilisé sur l'onglet *home* 
+Le document soumis est lui même affiché en dessous, celui-ci est à nouveau présenté dans le même type de lecteur de pdf que celui utilisé sur l'onglet *home* <br />
 ![pdf result 1](screenshots/pdf_check_1_screen.png)
 ![pdf result 2](screenshots/pdf_check_2_screen.png)
 
 ### Description des moteurs :
-#### Tesseract ( LOUIS ) :  
+#### Tesseract :  
 1. Contexte de l'outil  
 Tesseract a été développé par HP entre 1984 et 1994 pour améliorer ses scanners.  
 Le projet à ensuite été publié en open source par HP en 2005.
@@ -131,7 +131,7 @@ La robustesse de ce classifieur face aux caractères à parties manquentes à pe
    Le meilleur mot est calculé pour chaque catégorie.  
    Le mot reconnu est celui qui à la distance globale la plus faible avec l'ensemble des catégories. La distance avec chaque catégorie est pondéré avec un facteur différent dans le calcul de la distance globale.  
 
-### CNN mnist :
+#### CNN mnist :
 Pour le moteur de reconnaissance de chiffre manuscrit, un CNN alimenté par le dataset de mnist semblait être la meilleure solution. Nous n'avons bien évidemment pas créer de toute pièce l'architecture du CNN mais nous nous sommes inspirés d'une solution trouvée sur Kaggle : 
 https://www.kaggle.com/code/abdelwahed43/handwritten-digits-recognizer-0-999-simple-model
 
@@ -184,7 +184,7 @@ Après avoir enregistrer ces paramètres on va pouvoir entrainer et essayer le m
 
 Lorsque l'on utilise les modèles il est important de faire en sorte de traiter les images d'input pour qu'elle correspondent à ce qui a été appris durnat l'entrainement. Il sera donc utile de les redimensionner et de modifier leur couleur. 
 
-### CNN emnist :
+#### CNN emnist :
 Pour le moteur de reconnaissance de lettre manuscrite, un CNN alimenté par le dataset de emnist semblait être la meilleure solution. Nous n'avons bien évidemment pas créer de toute pièce l'architecture du CNN mais nous nous sommes inspirés d'une autre solution trouvée sur Kaggle : 
 https://www.kaggle.com/code/achintyatripathi/emnist-letter-dataset-97-9-acc-val-acc-91-78
 Malheureusement il est beaucoup moins performant que celui utilisé précédement pour mnist.
@@ -230,8 +230,6 @@ Il va falloir traité l'image afin de détecter les zones de textes:
 Maintenant que l'on connait les coordonnées de ses rectangles, nous pouvons faire des recherches directement dans l'image initiale avec nos moteurs de recherches. 
 
 Nous avons décidé de dessiner les rectangles ainsi que de leur donnée un numéro pour que ce soit plus simple à comprendre lors de l'affichage des données. 
-
-- Page de sortie (LOUIS)
 
 ### Historique
 Nous avons décidé de sauvegarder chacun des traitements d'image dans un json afin de garder une trace de ce qui a été travailler. Il s'agit d'un historique global et il serait intéressant de penser à un historique propre dans le futur du projet. 
