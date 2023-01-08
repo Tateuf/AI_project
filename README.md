@@ -15,7 +15,7 @@ Notre application comporte 3 onglets:
 - About : renvoie vers le repository github contenant cette documentation ainsi que le code source
 
 Nous allons nous focaliser en premier lieu sur les fonctionnalités de l'onglet *Home* visible ci-dessous.  
-![main_screen](https://user-images.githubusercontent.com/75576766/211205583-a025fd2b-2362-40aa-8d47-bb2260a4f400.PNG)
+![main_screen](screenshots/main_screen.PNG)
 
 - Chargement d'un document :  
 Nous avons un bouton en haut à gauche qui permet à l'utilisateur de sélectionner un document stocké sur son appareil.  
@@ -158,7 +158,7 @@ On va ensuite définir les différentes couches de notre modéle, on expliquera 
 - Dense(10, "softmax")
 <br />
 
-![image](https://user-images.githubusercontent.com/75576766/211188929-baa9a43f-f432-4060-920a-55fcad16ca47.png)
+![image](screenshots/schema_mnist.png)
 
 
 Conv2D : Cette couche va nous permettre de créer un kernel qui va être convolué avec l'input pour donner l'output. Cette couche va nous permettre de nous focaliser sur les détails de l'image. 
@@ -207,7 +207,7 @@ On va ensuite définir les différentes couches de notre modèle :
 
 <br />
 
-![emnist](https://user-images.githubusercontent.com/75576766/211189465-c0a095d9-0640-4d59-9eef-d3d86a8b3371.png)
+![emnist](screenshots/emnist.png)
 
 Nous utilisons un optimiser RMSprop, avec une fonction de loss categorical_crossentropy et les mêmes metrics que pour mnist. 
 
